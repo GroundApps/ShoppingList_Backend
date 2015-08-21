@@ -17,6 +17,10 @@
                 $this->db->exec("CREATE TABLE itemlist(ITEM TEXT PRIMARY KEY NOT NULL, COUNT INT NOT NULL);");
             }
         }
+        
+        function __destructor(){
+            $this->db->close();
+        }
          
         function listall(){
             $resultQuery = $this->db->query("SELECT ITEM, COUNT FROM itemlist ORDER BY ITEM ASC;");
