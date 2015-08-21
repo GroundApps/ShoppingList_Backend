@@ -4,23 +4,17 @@
 	$itemCount = $_POST['count'];
 	$function = $_POST['function'];
 	$auth = $_POST['auth'];
-	$authKey = "";
-	$dataBase = "SQLite";
+	
+	include('config.php');
 	
 	switch($dataBase){
 		case 'SQLite':
 			$dbConnector = "sqlite_connector.php";
-			$dbConfig = "shoppinglist.sqlite";
+			$dbConfig = $SQLiteConfig;
 			break;
 		case 'MySQL':
 			$dbConnector = "mysql_connector.php";
-			$dbConfig = [
-				'host' => "host",
-				'db' => "db",
-				'table' => "table",
-				'user' => "user",
-				'password' => "password",
-			];
+			$dbConfig = $MySQLConfig;
 			break;
 		default:
 			$dbConnector = "";

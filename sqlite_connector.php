@@ -4,7 +4,8 @@
         
         var $db;
         
-        function __construct($dbfile){
+        function __construct($args){
+            $dbfile = $args['file'];
             try{
                 $this->db = new SQLite3($dbfile, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
             }catch(Exception $e){
