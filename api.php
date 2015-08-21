@@ -10,7 +10,7 @@
 	switch($dataBase){
 		case 'SQLite':
 			$dbConnector = "sqlite_connector.php";
-			$dbConfig = "";
+			$dbConfig = "shoppinglist.sqlite";
 			break;
 		case 'MySQL':
 			$dbConnector = "mysql_connector.php";
