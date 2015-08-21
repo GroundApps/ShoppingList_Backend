@@ -1,18 +1,42 @@
  <?php
-	include 'mysql_connector.php';
-	
+    
     $itemName = $_POST['item'];
 	$itemCount = $_POST['count'];
 	$function = $_POST['function'];
 	$auth = $_POST['auth'];
 	$authKey = "";
+	$dataBase = "SQLite";
+	
+	switch($dataBase){
+		case 'SQLite':
+			$dbConnector = "sqlite_connector.php";
+			$dbConfig = "";
+			break;
+		case 'MySQL':
+			$dbConnector = "mysql_connector.php";
+			$dbConfig = [
+				'host' => "host",
+				'db' => "db",
+				'table' => "table",
+				'user' => "user",
+				'password' => "password",
+			];
+			break;
+		default:
+			$dbConnector = "";
+			$dbConfig = "";
+			die (json_encode(array('code' => 'error', 'comment' => 'no database type specified')));
+	}
+	
+	
+	include $dbConnector;
 	
 		if ($auth != $authKey){
 			header("HTTP/1.1 403 Forbidden");
 			die (json_encode(array('code' => 'error', 'comment' => 'auth failed with authkey: '. $auth)));
 		}
 		
-		$db = NEW sql('host','db','table','user','password');
+		$db = NEW DataBase($dbConfig);
 		
 		switch ($function){
 			case 'listall':

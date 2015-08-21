@@ -3,13 +3,13 @@
         {
         var $server, $username, $password, $database;
 
-        function __construct($server,$database,$table,$username,$password)
+        function __construct($mysql_config)
             {
-            $this->server = $server;
-			$this->database = $database;
-			$this->table = $table;
-			$this->username = $username;
-			$this->password = $password;
+            $this->server = $mysql_config['host'];
+			$this->database = $mysql_config['db'];
+			$this->table = $mysql_config['table'];
+			$this->username = $mysql_config['user'];
+			$this->password = $mysql_config['password'];
             }
 
         function save($itemName, $itemCount)
