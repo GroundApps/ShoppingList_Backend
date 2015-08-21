@@ -1,5 +1,5 @@
  <?php
-    class sql
+    class DataBase
         {
         var $server, $username, $password, $database;
 
