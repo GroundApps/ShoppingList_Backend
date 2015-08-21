@@ -26,7 +26,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("INSERT into testlist(item,count) VALUES(?,?)");
+			$stmt = $handler->prepare("INSERT into $table(item,count) VALUES(?,?)");
 			$stmt->bind_param('ss', $itemName, $itemCount);
 
 			//execute query and check if successful
@@ -57,7 +57,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("UPDATE testlist SET count = ? WHERE item = ?");
+			$stmt = $handler->prepare("UPDATE $table SET count = ? WHERE item = ?");
 			$stmt->bind_param('ss', $itemCount, $itemName);
 
 			//execute query and check if successful
@@ -88,7 +88,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("DELETE FROM testlist WHERE item = ?");
+			$stmt = $handler->prepare("DELETE FROM $table WHERE item = ?");
 			$stmt->bind_param('s', $itemName);
 
 			//execute query and check if successful
@@ -119,7 +119,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("SELECT item FROM testlist WHERE item = ?");
+			$stmt = $handler->prepare("SELECT item FROM $table WHERE item = ?");
 			$stmt->bind_param('s', $itemName);
 			//execute query
 			$stmt->execute();
@@ -149,7 +149,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("SELECT item, count FROM testlist ORDER BY item ASC");
+			$stmt = $handler->prepare("SELECT item, count FROM $table ORDER BY item ASC");
 			//execute query
 			$stmt->execute();
 			
@@ -183,7 +183,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("TRUNCATE testlist");
+			$stmt = $handler->prepare("TRUNCATE $table");
 			$stmt->bind_param('s', $itemName);
 
 			//execute query and check if successful
