@@ -1,14 +1,14 @@
  <?php
-    class sql
+    class DataBase
         {
         var $server, $username, $password, $database;
 
-        function __construct($server,$database,$username,$password)
+        function __construct($mysql_config)
             {
-            $this->server = $server;
-			$this->database = $database;
-			$this->username = $username;
-			$this->password = $password;
+            $this->server = $mysql_config['host'];
+			$this->database = $mysql_config['db'];
+			$this->username = $mysql_config['user'];
+			$this->password = $mysql_config['password'];
             }
 
         function save($itemName, $itemCount)

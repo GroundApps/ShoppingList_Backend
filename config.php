@@ -1,8 +1,19 @@
- <?php
-	$sqlHost = 'localhost';
-	$sqlDatabase = 'shopping';
-	$sqlUser = 'newuser';
-	$sqlPassword = 'password';
+<?php
+    
+    //password used for app
+	$authKey = "";
 	
-	$authKey = "Your Password For The App Here";
-?> 
+	$dataBase = "SQLite";
+	//only for SQLite
+	$SQLiteConfig = [
+        'file' => "shoppinglist.sqlite",
+	];
+	//only for MySQL
+	$MySQLConfig = [
+        'host' => "host",
+        'db' => "db",
+        'user' => "user",
+        'password' => "password",
+    ];
+?>
+
