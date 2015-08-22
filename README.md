@@ -1,7 +1,18 @@
-# ShoppingList Server
+# ShoppingList Backend
 
 ##Installation
-###MySQL
+
+###Database
+You can either use MySQL or SQLite. SQLite is easier to set up.
+
+####SQLite
+Just edit your config.php so that<br>
+```php $database = 'SQLite'; ```<br>
+The file/database should get created automatically.<br>
+
+####MySQL
+Just edit your config.php so that<br>
+```php $database = 'MySQL'; ```<br><br>
 The sql command does the following things.<br>
 Please replace user, password and host where necessary.<br>
 1. Create a user.<br>
