@@ -40,4 +40,4 @@ In config.php replace to match your details.<br>
 
 ## Feedback
 Please do never hesitate to open an issue!<br>
-I know there a some bug, most likely because I had no idea how to do it otherwise and therefore had to use a workaround.
+I know there a some bugs, most likely because I had no idea how to do it otherwise and therefore had to use a workaround.
