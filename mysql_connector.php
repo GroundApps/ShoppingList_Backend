@@ -3,11 +3,10 @@
         {
         var $server, $username, $password, $database;
 
-        function __construct($server,$database,$table,$username,$password)
+        function __construct($server,$database,$username,$password)
             {
             $this->server = $server;
 			$this->database = $database;
-			$this->table = $table;
 			$this->username = $username;
 			$this->password = $password;
             }
@@ -26,7 +25,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("INSERT into testlist(item,count) VALUES(?,?)");
+			$stmt = $handler->prepare("INSERT into ShoppingList(item,count) VALUES(?,?)");
 			$stmt->bind_param('ss', $itemName, $itemCount);
 
 			//execute query and check if successful
@@ -57,7 +56,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("UPDATE testlist SET count = ? WHERE item = ?");
+			$stmt = $handler->prepare("UPDATE ShoppingList SET count = ? WHERE item = ?");
 			$stmt->bind_param('ss', $itemCount, $itemName);
 
 			//execute query and check if successful
@@ -88,7 +87,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("DELETE FROM testlist WHERE item = ?");
+			$stmt = $handler->prepare("DELETE FROM ShoppingList WHERE item = ?");
 			$stmt->bind_param('s', $itemName);
 
 			//execute query and check if successful
@@ -119,7 +118,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("SELECT item FROM testlist WHERE item = ?");
+			$stmt = $handler->prepare("SELECT item FROM ShoppingList WHERE item = ?");
 			$stmt->bind_param('s', $itemName);
 			//execute query
 			$stmt->execute();
@@ -149,7 +148,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("SELECT item, count FROM testlist ORDER BY item ASC");
+			$stmt = $handler->prepare("SELECT item, count FROM ShoppingList ORDER BY item ASC");
 			//execute query
 			$stmt->execute();
 			
@@ -183,7 +182,7 @@
 			}
 			
 			//prepare query
-			$stmt = $handler->prepare("TRUNCATE testlist");
+			$stmt = $handler->prepare("TRUNCATE ShoppingList");
 			$stmt->bind_param('s', $itemName);
 
 			//execute query and check if successful
