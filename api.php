@@ -1,18 +1,18 @@
  <?php
 	include 'mysql_connector.php';
+	require 'config.php';
 	
     $itemName = $_POST['item'];
 	$itemCount = $_POST['count'];
 	$function = $_POST['function'];
 	$auth = $_POST['auth'];
-	$authKey = "";
-	
-		if ($auth != $authKey){
+
+	if ($auth != $authKey){
 			header("HTTP/1.1 403 Forbidden");
-			die (json_encode(array('code' => 'error', 'comment' => 'auth failed with authkey: '. $auth)));
+			die (json_encode(array('code' => 'error', 'comment' => 'auth failed with authKey: '. $auth)));
 		}
 		
-		$db = NEW sql('host','db','table','user','password');
+		$db = NEW sql($sqlHost, $sqlDatabase, $sqlUser, $sqlPassword);
 		
 		switch ($function){
 			case 'listall':
