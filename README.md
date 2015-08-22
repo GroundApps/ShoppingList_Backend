@@ -26,16 +26,26 @@ FLUSH PRIVILEGES;
 
 ### PHP files
 
-In config.php replace to match your details.<br>
+In config.php replace to match your details from above.<br>
 ```php
 <?php
-	$sqlHost = 'localhost';
-	$sqlDatabase = 'shoppinglist';
-	$sqlUser = 'newuser';
-	$sqlPassword = 'PasswordForSQL';
+    
+    //password used for app
+	$authKey = "Your Password For The App Here";
 	
-	$authKey = "The one you enter in the app";
-?> 
+	$dataBase = "SQLite or MySQL";
+	//only for SQLite
+	$SQLiteConfig = [
+        'file' => "shoppinglist.sqlite",
+	];
+	//only for MySQL
+	$MySQLConfig = [
+        'host' => "host",
+        'db' => "db",
+        'user' => "user",
+        'password' => "password",
+    ];
+?>
 ```
 
 ## Feedback
