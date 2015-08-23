@@ -24,8 +24,8 @@
 	
 	
 	include $dbConnector;
-	
-		if ($auth != $authKey){
+		
+		if (!hash_equals($authKey, crypt($auth, $authKey))){
 			header("HTTP/1.1 403 Forbidden");
 			die (json_encode(array('code' => 'error', 'comment' => 'auth failed with authkey: '. $auth)));
 		}
