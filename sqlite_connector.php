@@ -4,8 +4,18 @@
         
         var $db;
         
+        function checkaccess($filename){
+			$htaccess = file_get_contents('.htaccess');
+			if(strpos($htaccess, $filename) == false){
+				$denystring = "\n<files $filename>\norder allow,deny\ndeny from all\n</files>\n";
+				file_put_contents('.htaccess', $denystring, FILE_APPEND);
+			}
+		}
+				
+        
         function __construct($args){
             $dbfile = $args['file'];
+            $this->checkaccess($dbfile);
             try{
                 $this->db = new SQLite3($dbfile, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
             }catch(Exception $e){
