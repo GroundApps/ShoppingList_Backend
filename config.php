@@ -1,6 +1,8 @@
 <?php
     
-    $authKey = "";
+    //password used for app
+	$authKey = "";
+	
 	$dataBase = "SQLite";
 	//only for SQLite
 	$SQLiteConfig = [
@@ -10,8 +12,8 @@
 	$MySQLConfig = [
         'host' => "host",
         'db' => "db",
-        'table' => "table",
         'user' => "user",
         'password' => "password",
     ];
 ?>
+
