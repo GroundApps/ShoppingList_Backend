@@ -136,8 +136,7 @@ jQuery(document).ready(function(){
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-database"></i></div>
     <select class="form-control" id="type" name="type">
-      <option value="0">Choose...</option>
-      <option value="MySQL">MySQL</option>
+      <option value="MySQL" selected>MySQL</option>
       <option value="SQLite">SQLite</option>
     </select>
         </div>
