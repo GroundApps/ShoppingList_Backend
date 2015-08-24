@@ -55,10 +55,10 @@
           //try to open/create config.php file
           //success: write config value
           //error: message and get out config.php value
-          if(fopen('config.php', 'w')) {
+          if($handler = fopen('config.php', 'w')) {
       
-            fwrite('config.php', $config);
-            fclose('config.php');      
+            fwrite($handler, $config);
+            fclose($handler);      
           }
           else
           {
