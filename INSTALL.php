@@ -10,8 +10,11 @@
 
 <body>
 <?php
+//Start on submit form
   if(isset($_POST['createConfig']))
   {
+    //set vars
+    //hash api key with bcrypt
     $apikey = password_hash($_POST['apikey'], PASSWORD_BCRYPT);
     $dbtype = $_POST['type'];
     $dbhost = $_POST['hostname'];
@@ -19,6 +22,7 @@
     $dbuser = $_POST['dbuser'];
     $dbpassword = $_POST['dbpassword'];
     
+    //create config file value
     $config = <<<EOF
       <?php
         $authKey = $apikey;
@@ -38,6 +42,7 @@
       ?>
 EOF;    
 
+    //mysql dump
     $dbdump = <<<EOF
       CREATE TABLE ShoppingList (
       item VARCHAR(255),
@@ -46,7 +51,10 @@ EOF;
       primary KEY (RID))
       ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
 EOF;
-    
+
+    //try to open/create config.php file
+    //success: write config value
+    //error: message and get out config.php value
     if(fopen('config.php', 'w')) {
 
       fwrite('config.php', $config);
@@ -62,47 +70,43 @@ EOF;
           <div class="form-group">
             <label for="comment">config.php</label>
             <textarea class="form-control" rows="8" id="comment">
-              $config
+              {$config}
             </textarea>
           </div>      
 EOF;
     }
-if($dbtype == "MySQL")
-{
-  /*
-  * Create DB Table
-  */
-  
-  $handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
-  
-  //check if connection successful
-  if ($handler->connect_error) {
-  	die('
-  <div class="alert alert-danger" role="alert">
-    No Connection to your Database. Please correct your Informations!
-  </div>	
-  	');
+  //when DB Type MySQL create table    
+  if($dbtype == "MySQL")
+  {
+    $handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
+    
+    //check if connection successful
+    if ($handler->connect_error) {
+    	die('
+    <div class="alert alert-danger" role="alert">
+      No Connection to your Database. Please correct your Informations!
+    </div>	
+    	');
+    }
+    
+    //prepare query
+    $stmt = $handler->prepare($dbdump);
+    
+    //execute query and check if successful
+    if ($stmt->execute())
+      echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
+    else 
+      echo '<div class="alert alert-danger" role="alert">
+      There was an Error in the MySQL Statment!
+    </div>';
+    
+    //close connection
+    $stmt->close();
   }
-  
-  //prepare query
-  $stmt = $handler->prepare($dbdump);
-  
-  //execute query and check if successful
-  if ($stmt->execute())
+  else
+  {
     echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
-  else 
-    echo '<div class="alert alert-danger" role="alert">
-    There was an Error in the MySQL Statment!
-  </div>';
-  
-  
-  //close connection
-  $stmt->close();
-}
-else
-{
-  echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
-}
+  }
   }
 ?>
 <script>
