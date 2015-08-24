@@ -65,8 +65,8 @@
                 <h2>Config.php</h2>
                 <h2><small>It was not possible to create the config.php file. Please copy the code and paste it in the file.</small></h2>
                 <div class="form-group">
-                  <label for="config">config.php</label>
-                  <textarea class="form-control" rows="15" min-height="300px" id="config">
+                  <label for="msg_config">config.php</label>
+                  <textarea class="form-control" rows="15" min-height="300px" id="msg_config">
                     {$config}
                   </textarea>
   
