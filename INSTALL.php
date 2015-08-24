@@ -119,6 +119,9 @@ jQuery(document).ready(function(){
                   jQuery('#MySQL').show(); 
               } 
           });
+	jQuery('createDBUser').checked(function(){
+		jQuery('#createDBMessage').show();
+	});
       });
     </script>
     <h2>Install ShoppingList Database</h2>
@@ -132,6 +135,8 @@ jQuery(document).ready(function(){
       </div>
       
     <h2><small>Database Setup</small></h2>
+	<h3><small><input type="checkbox" name="createDBUser" id="createDBUser" />&nbsp;Do you want to create a user and database for that App? </small></h3>
+	<div class="alert alert-info" role="alert" id="createDBMessage" style="display:none;">Please fill the form with your root MySQL data. After this installation this data will delete and the app will take the new created user for the operations.</div>
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-database"></i></div>
