@@ -106,6 +106,8 @@ EOCONFIG;
           echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
         }
         }
+        else
+        {
       ?>
     <script>
       $(function() {
@@ -169,5 +171,9 @@ EOCONFIG;
     </form>
     </div>
     </div>
+    </div>
+<?php
+}
+?>
   </body>
 </html>
