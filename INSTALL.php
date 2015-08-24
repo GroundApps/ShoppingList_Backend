@@ -127,18 +127,18 @@ EOCONFIG;
           <input type="password" class="form-control" name="apikey" placeholder="API Key" size="35">
         </div>
       </div>
-      <div id="MySQL">
+      
     <h2><small>Database Setup</small></h2>
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-database"></i></div>
     <select class="form-control" id="type" name="type">
       <option value="MySQL" selected>MySQL</option>
-      <option value="SQLite" type=>SQLite</option>
+      <option value="SQLite">SQLite</option>
     </select>
         </div>
       </div><br /><br style="font-size:5px"/>
-    <div id="mysql">
+    <div id="MySQL">
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-globe"></i></div>
@@ -162,7 +162,7 @@ EOCONFIG;
           <div class="input-group-addon"><i class="fa fa-key"></i></div>
           <input type="password" class="form-control" name="dbpassword" placeholder="Database Password" size="35">
         </div>
-      </div></div><br /><br style="font-size:5px"/>
+      </div><br /><br style="font-size:5px"/>
     <small>This Step will write the config in the config.php file. When the script have no write access it will display the value of the config.php. You must copy then this value and put it by yourself in the config.php. The script also create the table with the SQL Dump.</small><br ><br >
     <button type="submit" class="btn btn-primary" name="createConfig"> Create </button></div>
     </form>
