@@ -19,33 +19,32 @@
     $dbuser = $_POST['dbuser'];
     $dbpassword = $_POST['dbpassword'];
     
-$config = <<<EOF
-<?php
-  $authKey = $apikey;
+    $config = <<<EOF
+      <?php
+        $authKey = $apikey;
 
-  $dataBase = "$dbtype";
-  //only for SQLite
-  $SQLiteConfig = [
-    'file' => "shoppinglist.sqlite",
-  ];
-  //only for MySQL
-  $MySQLConfig = [
-    'host' => "$dbhost",
-    'db' => "$dbname",
-    'user' => "$dbuser",
-    'password' => "$dbpassword",
-  ];
-
-?>
+        $dataBase = "$dbtype";
+        //only for SQLite
+        $SQLiteConfig = [
+          'file' => "shoppinglist.sqlite",
+        ];
+        //only for MySQL
+        $MySQLConfig = [
+          'host' => "$dbhost",
+          'db' => "$dbname",
+          'user' => "$dbuser",
+          'password' => "$dbpassword",
+        ];
+      ?>
 EOF;    
 
-$dbdump = <<<EOF
-CREATE TABLE ShoppingList (
-item VARCHAR(255),
-count VARCHAR(255),
-RID int(11) NOT NULL auto_increment,
-primary KEY (RID))
-ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
+    $dbdump = <<<EOF
+      CREATE TABLE ShoppingList (
+      item VARCHAR(255),
+      count VARCHAR(255),
+      RID int(11) NOT NULL auto_increment,
+      primary KEY (RID))
+      ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
 EOF;
     
     if(fopen('config.php', 'w')) {
