@@ -24,24 +24,23 @@
           $dbpassword = $_POST['dbpassword'];
           
           //create config file value
-          $config = <<<EOF
+          $config = '
             <?php
               $authKey = $apikey;
       
-              $dataBase = "{$dbtype}";
+              $dataBase = "'.$dbtype.'";
               //only for SQLite
               $SQLiteConfig = [
                 'file' => "shoppinglist.sqlite",
               ];
               //only for MySQL
               $MySQLConfig = [
-                'host' => "{$dbhost}",
-                'db' => "{$dbname}",
-                'user' => "{$dbuser}",
-                'password' => "{$dbpassword}",
+                \'host\' => "'.$dbhost.'",
+                \'db\' => "'.$dbname.'",
+                \'user\' => "'.$dbuser.'",
+                \'password\' => "'.$dbpassword.'",
               ];
-            ?>
-EOF;    
+            ?>';
       
           //mysql dump
           $dbdump = "
@@ -50,7 +49,7 @@ EOF;
             count VARCHAR(255),
             RID int(11) NOT NULL auto_increment,
             primary KEY (RID))
-            ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci";
+            ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;";
       
           //try to open/create config.php file
           //success: write config value
