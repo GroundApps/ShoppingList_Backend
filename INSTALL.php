@@ -26,7 +26,7 @@
           //create config file value
           $config = '
             <?php
-              $authKey = $apikey;
+              $authKey = '.$apikey.';
       
               $dataBase = "'.$dbtype.'";
               //only for SQLite
@@ -65,8 +65,8 @@
                 <h2>Config.php</h2>
                 <h2><small>It was not possible to create the config.php file. Please copy the code and paste it in the file.</small></h2>
                 <div class="form-group">
-                  <label for="comment">config.php</label>
-                  <textarea class="form-control" rows="8" id="comment">
+                  <label for="config">config.php</label>
+                  <textarea class="form-control" rows="15" min-height="300px" id="config">
                     {$config}
                   </textarea>
   
