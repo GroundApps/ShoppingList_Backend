@@ -31,7 +31,7 @@
               $dataBase = "'.$dbtype.'";
               //only for SQLite
               $SQLiteConfig = [
-                'file' => "shoppinglist.sqlite",
+                \'file\' => "shoppinglist.sqlite",
               ];
               //only for MySQL
               $MySQLConfig = [
