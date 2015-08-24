@@ -2,6 +2,12 @@
 
 ##Installation
 
+###Requirements
+* PHP >= 5.6
+* Apache Websever (we recommend a TLS Connection to the Server)
+* MySQL or SQLite (you can select in the Install Script)
+
+
 ###Database
 You can either use MySQL or SQLite. SQLite is easier to set up.
 
