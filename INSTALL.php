@@ -51,8 +51,7 @@
             primary KEY (RID))
             ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;";
 
-        if($dbtype == "MySQL")
-        {
+
           //try to open/create config.php file
           //success: write config value
           //error: message and get out config.php value
@@ -74,7 +73,6 @@
   
 EOCONFIG;
           }
-        }
         //when DB Type MySQL create table    
         if($dbtype == "MySQL")
         {
@@ -129,6 +127,7 @@ EOCONFIG;
           <input type="password" class="form-control" name="apikey" placeholder="API Key" size="35">
         </div>
       </div>
+      <div id="MySQL">
     <h2><small>Database Setup</small></h2>
       <div class="form-group">
         <div class="input-group">
@@ -163,7 +162,7 @@ EOCONFIG;
           <div class="input-group-addon"><i class="fa fa-key"></i></div>
           <input type="password" class="form-control" name="dbpassword" placeholder="Database Password" size="35">
         </div>
-      </div><br /><br style="font-size:5px"/>
+      </div></div><br /><br style="font-size:5px"/>
     <small>This Step will write the config in the config.php file. When the script have no write access it will display the value of the config.php. You must copy then this value and put it by yourself in the config.php. The script also create the table with the SQL Dump.</small><br ><br >
     <button type="submit" class="btn btn-primary" name="createConfig"> Create </button></div>
     </form>
