@@ -110,7 +110,7 @@ EOCONFIG;
         {
       ?>
     <script>
-      $(function() {
+$(document).ready(function(){
           $('#type').change(function(){
               if($('#type').val() == 'SQLite') {
                   $('#MySQL').hide(); 
