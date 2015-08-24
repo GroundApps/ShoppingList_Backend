@@ -50,7 +50,9 @@
             RID int(11) NOT NULL auto_increment,
             primary KEY (RID))
             ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;";
-      
+
+        if($dbtype == "MySQL")
+        {
           //try to open/create config.php file
           //success: write config value
           //error: message and get out config.php value
@@ -72,6 +74,7 @@
   
 EOCONFIG;
           }
+        }
         //when DB Type MySQL create table    
         if($dbtype == "MySQL")
         {
