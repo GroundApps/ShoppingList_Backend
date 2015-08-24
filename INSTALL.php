@@ -108,15 +108,15 @@ EOCONFIG;
         }
       ?>
     <script>
-    $( document ).ready(function() {
-        $('#type').change(function(){
-            if($('#type').val() == 'SQLite') {
-                $('#MySQL').hide(); 
-            } else {
-                $('#MySQL').show(); 
-            } 
-        });
-    });
+      $(function() {
+          $('#type').change(function(){
+              if($('#type').val() == 'SQLite') {
+                  $('#MySQL').hide(); 
+              } else {
+                  $('#MySQL').show(); 
+              } 
+          });
+      });
     </script>
     <h2>Install ShoppingList Database</h2>
     <h2><small>API Key</small></h2>
