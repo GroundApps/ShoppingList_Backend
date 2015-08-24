@@ -64,7 +64,7 @@
           {
             echo <<<EOCONFIG
                 <h2>Config.php</h2>
-                <h2><small>It was not possible to create the config.php file. Please copy the code and paste it in the file.</small></h2>
+                <div class="alert alert-danger" role="alert">It was not possible to create the config.php file. Please copy the code and paste it in the file.</div>
                 <div class="form-group">
                   <label for="msg_config">config.php</label>
                   <textarea class="form-control" rows="15" min-height="300px" id="msg_config">
@@ -133,7 +133,8 @@ EOCONFIG;
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-database"></i></div>
     <select class="form-control" id="type" name="type">
-      <option value="MySQL" selected>MySQL</option>
+      <option value="0">Choose...</option>
+      <option value="MySQL">MySQL</option>
       <option value="SQLite">SQLite</option>
     </select>
         </div>
