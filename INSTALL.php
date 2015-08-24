@@ -17,7 +17,7 @@
 
 <body>
 <?php
-  if(isset($_POST['createConfig'])
+  if(isset($_POST['createConfig']))
   {
     $apikey = password_hash($_POST['apikey'], PASSWORD_BCRYPT);
     $dbtype = $_POST['type'];
