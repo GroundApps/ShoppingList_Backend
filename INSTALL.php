@@ -110,12 +110,12 @@ EOCONFIG;
         {
       ?>
     <script>
-$(document).ready(function(){
-          $('#type').change(function(){
-              if($('#type').val() == 'SQLite') {
-                  $('#MySQL').hide(); 
+jQuery(document).ready(function(){
+          jQuery('#type').change(function(){
+              if(jQuery('#type').val() == 'SQLite') {
+                  jQuery('#MySQL').hide(); 
               } else {
-                  $('#MySQL').show(); 
+                  jQuery('#MySQL').show(); 
               } 
           });
       });
