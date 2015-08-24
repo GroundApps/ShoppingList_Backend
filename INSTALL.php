@@ -54,7 +54,7 @@ EOF;
     }
     else
     {
-      echo <<<HTML
+      echo <<<EOF
         <div class="row">
           <div class="col-md-4 col-md-offset-5">
           <h2>Config.php</h2>
@@ -65,7 +65,7 @@ EOF;
               $config
             </textarea>
           </div>      
-HTML;
+EOF;
     }
 if($dbtype == "MySQL")
 {
