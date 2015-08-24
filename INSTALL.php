@@ -25,22 +25,22 @@
           
           //create config file value
           $config = '
-            <?php
-              $authKey = '.$apikey.';
-      
-              $dataBase = "'.$dbtype.'";
-              //only for SQLite
-              $SQLiteConfig = [
-                \'file\' => "shoppinglist.sqlite",
-              ];
-              //only for MySQL
-              $MySQLConfig = [
-                \'host\' => "'.$dbhost.'",
-                \'db\' => "'.$dbname.'",
-                \'user\' => "'.$dbuser.'",
-                \'password\' => "'.$dbpassword.'",
-              ];
-            ?>';
+<?php
+  $authKey = '.$apikey.';
+
+  $dataBase = "'.$dbtype.'";
+  //only for SQLite
+  $SQLiteConfig = [
+    \'file\' => "shoppinglist.sqlite",
+  ];
+  //only for MySQL
+  $MySQLConfig = [
+    \'host\' => "'.$dbhost.'",
+    \'db\' => "'.$dbname.'",
+    \'user\' => "'.$dbuser.'",
+    \'password\' => "'.$dbpassword.'",
+  ];
+?>';
       
           //mysql dump
           $dbdump = "
