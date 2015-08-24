@@ -23,17 +23,17 @@
       <?php
         $authKey = $apikey;
 
-        $dataBase = "$dbtype";
+        $dataBase = "{$dbtype}";
         //only for SQLite
         $SQLiteConfig = [
           'file' => "shoppinglist.sqlite",
         ];
         //only for MySQL
         $MySQLConfig = [
-          'host' => "$dbhost",
-          'db' => "$dbname",
-          'user' => "$dbuser",
-          'password' => "$dbpassword",
+          'host' => "{$dbhost}",
+          'db' => "{$dbname}",
+          'user' => "{$dbuser}",
+          'password' => "{$dbpassword}",
         ];
       ?>
 EOF;    
