@@ -36,13 +36,16 @@ FLUSH PRIVILEGES;
 ```
 
 ### PHP files
-
+So the password for the lists is not stored in plain-text, you can hash the authKey by using command line in the directory:
+```bash
+ php config.php <password> 
+```
 In config.php replace to match your details from above.<br>
 ```php
 <?php
     
     //password used for app
-	$authKey = "Your Password For The App Here";
+	$authKey = ''; // Add the password you created with the above command
 	
 	$dataBase = "SQLite or MySQL";
 	//only for SQLite
