@@ -44,14 +44,13 @@
 EOF;    
       
           //mysql dump
-          $dbdump = <<<EOF
+          $dbdump = "
             CREATE TABLE ShoppingList (
             item VARCHAR(255),
             count VARCHAR(255),
             RID int(11) NOT NULL auto_increment,
             primary KEY (RID))
-            ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
-EOF;
+            ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci";
       
           //try to open/create config.php file
           //success: write config value
@@ -63,9 +62,7 @@ EOF;
           }
           else
           {
-            echo <<<EOF
-              <div class="row">
-                <div class="col-md-4 col-md-offset-5">
+            echo <<<EOCONFIG
                 <h2>Config.php</h2>
                 <h2><small>It was not possible to create the config.php file. Please copy the code and paste it in the file.</small></h2>
                 <div class="form-group">
@@ -73,8 +70,8 @@ EOF;
                   <textarea class="form-control" rows="8" id="comment">
                     {$config}
                   </textarea>
-                </div>      
-EOF;
+  
+EOCONFIG;
           }
         //when DB Type MySQL create table    
         if($dbtype == "MySQL")
