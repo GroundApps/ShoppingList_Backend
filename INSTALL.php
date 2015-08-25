@@ -63,8 +63,7 @@ ini_set("display_errors", 1);
 
 	//mysql dump for root access
 	$dbdump_access = "CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';
-	CREATE DATABASE shopping;
-	GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';";
+	CREATE DATABASE shopping;";
 
           }
           else
