@@ -29,15 +29,51 @@
           //hash api key with bcrypt
           $apikey = password_hash($_POST['apikey'], PASSWORD_BCRYPT);
           $dbtype = $_POST['type'];
-          $dbhost = $_POST['hostname'];
-          $dbname = $_POST['database'];
-          $dbuser = $_POST['dbuser'];
-          $dbpassword = $_POST['dbpassword'];
-          $createDBUser = $_POST['createDBUser'];
+          $dbhost = isset($_POST['hostname']);
+          $dbname = isset($_POST['database']);
+          $dbuser = isset($_POST['dbuser']);
+          $dbpassword = isset($_POST['dbpassword']);
+          $createDBUser = isset($_POST['createDBUser']);
           
           $dbrandom_pwd = generateRandomPWD();
           
           //create config file value
+          if($createDBUser == "true") {
+          	$config_access = '
+<?php
+  $authKey = "'.$apikey.'";
+
+  $dataBase = "'.$dbtype.'";
+  //only for SQLite
+  $SQLiteConfig = [
+    \'file\' => "shoppinglist.sqlite",
+  ];
+  //only for MySQL
+  $MySQLConfig = [
+    \'host\' => "'.$dbhost.'",
+    \'db\' => "shopping",
+    \'user\' => "ShoppingListUser",
+    \'password\' => "'.$dbrandom_pw.'d",
+  ];
+?>';          	
+
+					//mysql dump for root access
+					$dbdump_access = "
+						CREATE USER 'ShoppingListUser'@'localhost' IDENTIFIED BY '".$dbrandom_pwd."';
+						CREATE DATABASE shopping;
+						USE shopping;
+						CREATE TABLE ShoppingList (
+						item VARCHAR(255),
+						count VARCHAR(255),
+						RID int(11) NOT NULL auto_increment,
+						primary KEY (RID))
+						ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
+						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';
+						FLUSH PRIVILEGES;
+					";          	
+          }
+          else
+          {
           $config = '
 <?php
   $authKey = "'.$apikey.'";
@@ -56,24 +92,7 @@
   ];
 ?>';
 
-          $config_access = '
-<?php
-  $authKey = "'.$apikey.'";
 
-  $dataBase = "'.$dbtype.'";
-  //only for SQLite
-  $SQLiteConfig = [
-    \'file\' => "shoppinglist.sqlite",
-  ];
-  //only for MySQL
-  $MySQLConfig = [
-    \'host\' => "'.$dbhost.'",
-    \'db\' => "shopping",
-    \'user\' => "ShoppingListUser",
-    \'password\' => "'.$dbrandom_pw.'d",
-  ];
-?>';
-      
           //mysql dump
           $dbdump = "
             CREATE TABLE ShoppingList (
@@ -82,22 +101,7 @@
             RID int(11) NOT NULL auto_increment,
             primary KEY (RID))
             ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;";
-
-					//mysql dump for root access
-					
-					$dbdump_access = "
-						CREATE USER 'ShoppingListUser'@'localhost' IDENTIFIED BY '".$dbrandom_pwd."';
-						CREATE DATABASE shopping;
-						USE shopping;
-						CREATE TABLE ShoppingList (
-						item VARCHAR(255),
-						count VARCHAR(255),
-						RID int(11) NOT NULL auto_increment,
-						primary KEY (RID))
-						ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
-						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';
-						FLUSH PRIVILEGES;
-					";
+          }
 
           //try to open/create config.php file
           //success: write config value
