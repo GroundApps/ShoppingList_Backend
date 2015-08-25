@@ -1,7 +1,3 @@
-<?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -38,7 +34,6 @@ ini_set("display_errors", 1);
           $dbuser = $_POST['dbuser'];
           $dbpassword = $_POST['dbpassword'];
           $createDBUser = (isset($_POST['createDBUser']) ? $_POST['createDBUser'] : "");
-          
           $dbrandom_pwd = generateRandomPWD();
           
           //create config file value
@@ -101,28 +96,28 @@ ini_set("display_errors", 1);
           //success: write config value
           //error: message and get out config.php value
           if($handler = fopen('config.php', 'w')) {
-      			if($createDBUser == "true")
-            	fwrite($handler, $config_access);
-            else
+      		if($createDBUser == "true")
+            		fwrite($handler, $config_access);
+            	else
           		fwrite($handler, $config);
             
             fclose($handler);      
           }
           else
           {
-            echo <<<EOCONFIG
-                <h2>Config.php</h2>
-                <div class="alert alert-danger" role="alert">It was not possible to create the config.php file. Please copy the code and paste it in the file.</div>
-                <div class="form-group">
-                  <label for="msg_config">config.php</label>
-                  <textarea class="form-control" rows="15" min-height="300px" id="msg_config">
+           	echo <<<EOCONFIG
+			<h2>Config.php</h2>
+			<div class="alert alert-danger" role="alert">It was not possible to create the config.php file. Please copy the code and paste it in the file.</div>
+				<div class="form-group">
+					<label for="msg_config">config.php</label>
+					<textarea class="form-control" rows="15" min-height="300px" id="msg_config">
 EOCONFIG;
-      			if($createDBUser == "true")
-            	echo $config_access;
-            else
+      		if($createDBUser == "true")
+            		echo $config_access;
+            	else
           		echo $config;
           		
-       			echo <<<EOCONFIG
+          	echo <<<EOCONFIG
                   </textarea>
   
 EOCONFIG;
@@ -136,13 +131,8 @@ EOCONFIG;
 			$handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
 
           //check if connection successful
-          if ($handler->connect_error) {
-          	die('
-          <div class="alert alert-danger" role="alert">
-            No Connection to your Database. Please correct your Informations!
-          </div>	
-          	');
-          }
+          if ($handler->connect_error)
+          	die('<div class="alert alert-danger" role="alert">No Connection to your Database. Please correct your Informations!</div>');
           
           //prepare query
     	if($createDBUser == "true") {
@@ -155,9 +145,7 @@ EOCONFIG;
 
           //execute query and check if successful
           if($createDBUser == "true") {
-          	if($stmt1->execute()) {
-          		$stmt2->execute();
-          		$stmt3->execute();
+          	if($stmt1->execute() && $stmt2->execute() && $stmt3->execute()) {
           		$mysql_error = false;
           		$handler = new mysqli($dbhost, $dbuser, $dbpassword, 'shopping');
           		$stmt4 = $handler->prepare($dbdump);
@@ -169,8 +157,11 @@ EOCONFIG;
           	else {
           		$mysql_error = true;
           	}
+          	//close connection
           	$stmt1->close();
           	$stmt2->close();
+          	$stmt3->close();
+          	$stmt4->close();
           }
           else {
           	if($stmt->execute())
