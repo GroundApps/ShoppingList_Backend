@@ -157,7 +157,7 @@ EOCONFIG;
           	if($stmt1->execute()) {
           		$mysql_error = false;
           		$handler = new mysqli($dbhost, $dbuser, $dbpassword, 'shopping');
-          		if($stmt1->execute())
+          		if($stmt2->execute())
           			$mysql_error = false;
           		else
           			$mysql_error = true;
@@ -165,6 +165,8 @@ EOCONFIG;
           	else {
           		$mysql_error = true;
           	}
+          	$stmt1->close();
+          	$stmt2->close();
           }
           else {
           	if($stmt->execute())
