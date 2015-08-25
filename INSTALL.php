@@ -63,8 +63,8 @@ ini_set("display_errors", 1);
 
 	//mysql dump for root access
 	$dbdump_access = "CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';";
-	$dbdump_access2 =  "CREATE DATABASE shopping;";
-	$dbdump_access3 =  "GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';";
+	$dbdump_access2 = "CREATE DATABASE shopping;";
+	$dbdump_access3 = "GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';";
 
           }
           else
@@ -156,7 +156,9 @@ EOCONFIG;
 
           //execute query and check if successful
           if($createDBUser == "true") {
-          	if($stmt1->execute() && $stmt2->execute() && $stmt3->execute()) {
+          	if($stmt1->execute()) {
+          		$stmt2->execute();
+          		$stmt3->execute();
           		$mysql_error = false;
           		$handler = new mysqli($dbhost, $dbuser, $dbpassword, 'shopping');
           		if($stmt4->execute())
