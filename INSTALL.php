@@ -182,7 +182,6 @@ jQuery(document).ready(function(){
             		$('#createDBMessage').show();
         	else
           		$('#createDBMessage').hide();
-
     	});
 		     
 
