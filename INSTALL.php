@@ -15,6 +15,16 @@
       //Start on submit form
         if(isset($_POST['createConfig']))
         {
+					function generateRandomPWD($length = 25) {
+					    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+					    $charactersLength = strlen($characters);
+					    $randomString = '';
+					    for ($i = 0; $i < $length; $i++) {
+					        $randomString .= $characters[rand(0, $charactersLength - 1)];
+					    }
+					    return $randomString;
+					}        	
+        	
           //set vars
           //hash api key with bcrypt
           $apikey = password_hash($_POST['apikey'], PASSWORD_BCRYPT);
@@ -23,11 +33,14 @@
           $dbname = $_POST['database'];
           $dbuser = $_POST['dbuser'];
           $dbpassword = $_POST['dbpassword'];
+          $createDBUser = $_POST['createDBUser'];
+          
+          $dbrandom_pwd = generateRandomPWD();
           
           //create config file value
           $config = '
 <?php
-  $authKey = \''.$apikey.'\';
+  $authKey = "'.$apikey.'";
 
   $dataBase = "'.$dbtype.'";
   //only for SQLite
@@ -42,6 +55,24 @@
     \'password\' => "'.$dbpassword.'",
   ];
 ?>';
+
+          $config_access = '
+<?php
+  $authKey = "'.$apikey.'";
+
+  $dataBase = "'.$dbtype.'";
+  //only for SQLite
+  $SQLiteConfig = [
+    \'file\' => "shoppinglist.sqlite",
+  ];
+  //only for MySQL
+  $MySQLConfig = [
+    \'host\' => "'.$dbhost.'",
+    \'db\' => "shopping",
+    \'user\' => "ShoppingListUser",
+    \'password\' => "'.$dbrandom_pw.'d",
+  ];
+?>';
       
           //mysql dump
           $dbdump = "
@@ -52,13 +83,31 @@
             primary KEY (RID))
             ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;";
 
+					//mysql dump for root access
+					
+					$dbdump_access = "
+						CREATE USER 'ShoppingListUser'@'localhost' IDENTIFIED BY '".$dbrandom_pwd."';
+						CREATE DATABASE shopping;
+						USE shopping;
+						CREATE TABLE ShoppingList (
+						item VARCHAR(255),
+						count VARCHAR(255),
+						RID int(11) NOT NULL auto_increment,
+						primary KEY (RID))
+						ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
+						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'localhost';
+						FLUSH PRIVILEGES;
+					";
 
           //try to open/create config.php file
           //success: write config value
           //error: message and get out config.php value
           if($handler = fopen('config.php', 'w')) {
-      
-            fwrite($handler, $config);
+      			if($createDBUser == "true")
+            	fwrite($handler, $config_access);
+            else
+          		fwrite($handler, $config);
+            
             fclose($handler);      
           }
           else
@@ -69,7 +118,13 @@
                 <div class="form-group">
                   <label for="msg_config">config.php</label>
                   <textarea class="form-control" rows="15" min-height="300px" id="msg_config">
-                    {$config}
+EOCONFIG;
+      			if($createDBUser == "true")
+            	echo $config_access;
+            else
+          		echo $config;
+          		
+       			echo <<<EOCONFIG
                   </textarea>
   
 EOCONFIG;
@@ -89,7 +144,10 @@ EOCONFIG;
           }
           
           //prepare query
-          $stmt = $handler->prepare($dbdump);
+    			if($createDBUser == "true")
+          	$stmt = $handler->prepare($dbdum_access);
+          else
+        		$stmt = $handler->prepare($dbdump);
           
           //execute query and check if successful
           if ($stmt->execute())
@@ -151,7 +209,7 @@ jQuery(document).ready(function(){
         </div>
       </div><br style="font-size:5px"/>
     <div id="MySQL">
-	    <h3><small><input type="checkbox" name="createDBUser" id="createDBUser" />&nbsp;Do you want to create a user and database for that App? </small></h3>
+	    <h3><small><input type="checkbox" name="createDBUser" id="createDBUser" value="true"/>&nbsp;Do you want to create a user and database for that App? </small></h3>
 		<div class="alert alert-info" role="alert" id="createDBMessage" style="display:none;">Please fill the form with your root MySQL data. After this installation this data will delete and the app will take the new created user for the operations.</div>
       <div class="form-group">
         <div class="input-group">
