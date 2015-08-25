@@ -62,9 +62,9 @@ ini_set("display_errors", 1);
 ?>';          	
 
 	//mysql dump for root access
-	$dbdump_access_user = "CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';";
-	$dbdump_access_db = "CREATE DATABASE shopping;";
-	$dbdump_acces_rights = "GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';";
+	$dbdump_access = "CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';
+	CREATE DATABASE shopping;
+	GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';";
 
           }
           else
@@ -146,26 +146,34 @@ EOCONFIG;
           
           //prepare query
     	if($createDBUser == "true") {
-          	$stmt1 = $handler->prepare($dbdump_access_user);
-          	$stmt2 = $handler->prepare($dbdump_access_db);
-          	$stmt3 = $handler->prepare($dbdump);
-          	$stmt4 = $handler->prepare($dbdump_acces_rights);
+          	$stmt1 = $handler->prepare($dbdump_access);
+          	$stmt2 = $handler->prepare($dbdump);
     	}
           else
 		$stmt = $handler->prepare($dbdump);
 
           //execute query and check if successful
           if($createDBUser == "true") {
-          	if($stmt1->execute() && $stmt2->execute())
+          	if($stmt1->execute()) {
           		$mysql_error = false;
-          	else
-          		$mysql_error = true;	
+          		$handler = new mysqli($dbhost, $dbuser, $dbpassword, 'shopping');
+          		if($stmt1->execute())
+          			$mysql_error = false;
+          		else
+          			$mysql_error = true;
+          	}
+          	else {
+          		$mysql_error = true;
+          	}
           }
           else {
           	if($stmt->execute())
           		$mysql_error = false;
           	else
           		$mysql_error = true;
+          		
+               	//close connection
+          	$stmt->close();
           }
           if (!$mysql_error)
             echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
@@ -173,9 +181,7 @@ EOCONFIG;
             echo '<div class="alert alert-danger" role="alert">
             There was an Error in the MySQL Statment!
           </div>';
-          
-          //close connection
-          $stmt->close();
+      
         }
         else
         {
