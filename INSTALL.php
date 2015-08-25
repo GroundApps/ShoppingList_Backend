@@ -95,7 +95,7 @@
 						RID int(11) NOT NULL auto_increment,
 						primary KEY (RID))
 						ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
-						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'localhost';
+						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."";
 						FLUSH PRIVILEGES;
 					";
 
@@ -178,10 +178,14 @@ jQuery(document).ready(function(){
               } 
           });
     	jQuery('#createDBUser').change(function(){
-        	if(this.checked)
+        	if(this.checked) {
             		$('#createDBMessage').show();
-        	else
+            		$('#dbname').hide();
+    		}
+        	else {
           		$('#createDBMessage').hide();
+          		$('#dbname').hide();
+    		}
     	});
 		     
 
@@ -216,7 +220,7 @@ jQuery(document).ready(function(){
           <input type="text" class="form-control" name="hostname" placeholder="Host" size="35">
         </div>
       </div><br /><br style="font-size:5px"/>
-      <div class="form-group">
+      <div class="form-group" id="dbname">
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-database"></i></div>
           <input type="text" class="form-control" name="database" placeholder="Database Name" size="35">
