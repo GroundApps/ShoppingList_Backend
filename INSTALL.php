@@ -62,18 +62,7 @@ ini_set("display_errors", 1);
 ?>';          	
 
 	//mysql dump for root access
-	$dbdump_access = "
-		CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';
-		CREATE DATABASE shopping;
-		USE shopping;
-		CREATE TABLE ShoppingList (
-		item VARCHAR(255),
-		count VARCHAR(255),
-		RID int(11) NOT NULL auto_increment,
-		primary KEY (RID))
-		ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
-		GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';
-		FLUSH PRIVILEGES;";   
+	$dbdump_access = "CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';";   
 
           }
           else
