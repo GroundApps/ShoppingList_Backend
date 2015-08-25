@@ -144,6 +144,8 @@ EOCONFIG;
 						$handler = new mysqli($dbhost, $dbuser, $dbpassword);
 					else
 						$handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
+						
+						echo $handler;
        
           //check if connection successful
           if ($handler->connect_error) {
