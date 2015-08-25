@@ -153,10 +153,10 @@ EOCONFIG;
     	}
           else
 		$stmt = $handler->prepare($dbdump);
-          var_dump($stmt);
+
           //execute query and check if successful
           if($createDBUser == "true") {
-          	if($stmt1->execute() && $stmt2->execute() && $stmt3->execute() && $stmt4->execute())
+          	if($stmt1->execute() && $stmt2->execute())
           		$mysql_error = false;
           	else
           		$mysql_error = true;	
