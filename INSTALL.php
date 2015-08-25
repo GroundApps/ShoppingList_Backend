@@ -147,12 +147,12 @@ EOCONFIG;
        
           //check if connection successful
           if ($handler->connect_error) {
-          	mysql_error($handler);
-          	die('
-          <div class="alert alert-danger" role="alert">
-            No Connection to your Database. Please correct your Informations!
-          </div>	
-          	');
+          	die(mysql_error());
+          	//die('
+         // <div class="alert alert-danger" role="alert">
+          //  No Connection to your Database. Please correct your Informations!
+         // </div>	
+          //	');
           }
           
           //prepare query
