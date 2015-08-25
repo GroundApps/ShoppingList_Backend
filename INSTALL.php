@@ -19,15 +19,15 @@ ini_set("display_errors", 1);
       //Start on submit form
         if(isset($_POST['createConfig']))
         {
-					function generateRandomPWD($length = 25) {
-					    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-					    $charactersLength = strlen($characters);
-					    $randomString = '';
-					    for ($i = 0; $i < $length; $i++) {
-					        $randomString .= $characters[rand(0, $charactersLength - 1)];
-					    }
-					    return $randomString;
-					}        	
+		function generateRandomPWD($length = 25) {
+		    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		    $charactersLength = strlen($characters);
+		    $randomString = '';
+		    for ($i = 0; $i < $length; $i++) {
+		        $randomString .= $characters[rand(0, $charactersLength - 1)];
+		    }
+		    return $randomString;
+		}        	
         	
           //set vars
           //hash api key with bcrypt
@@ -61,22 +61,20 @@ ini_set("display_errors", 1);
   ];
 ?>';          	
 
-					//mysql dump for root access
-					$dbdump_access = "
-						CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';
-						CREATE DATABASE shopping;
-						USE shopping;
-						CREATE TABLE ShoppingList (
-						item VARCHAR(255),
-						count VARCHAR(255),
-						RID int(11) NOT NULL auto_increment,
-						primary KEY (RID))
-						ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
-						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';
-						FLUSH PRIVILEGES;
-					";   
-					
-					echo $dbdump_access;
+	//mysql dump for root access
+	$dbdump_access = "
+		CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';
+		CREATE DATABASE shopping;
+		USE shopping;
+		CREATE TABLE ShoppingList (
+		item VARCHAR(255),
+		count VARCHAR(255),
+		RID int(11) NOT NULL auto_increment,
+		primary KEY (RID))
+		ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
+		GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';
+		FLUSH PRIVILEGES;";   
+
           }
           else
           {
@@ -142,10 +140,10 @@ EOCONFIG;
         //when DB Type MySQL create table    
         if($dbtype == "MySQL")
         {
-					if($createDBUser == "true")
-						$handler = new mysqli($dbhost, $dbuser, $dbpassword);
-					else
-						$handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
+		if($createDBUser == "true")
+			$handler = new mysqli($dbhost, $dbuser, $dbpassword);
+		else
+			$handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
 
           //check if connection successful
           if ($handler->connect_error) {
@@ -157,11 +155,11 @@ EOCONFIG;
           }
           
           //prepare query
-    			if($createDBUser == "true")
+    	if($createDBUser == "true")
           	$stmt = $handler->prepare($dbdump_access);
           else
-        		$stmt = $handler->prepare($dbdump);
-          
+		$stmt = $handler->prepare($dbdump);
+          var_dump($stmt);
           //execute query and check if successful
           if ($stmt->execute())
             echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
