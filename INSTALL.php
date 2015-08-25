@@ -62,7 +62,9 @@ ini_set("display_errors", 1);
 ?>';          	
 
 	//mysql dump for root access
-	$dbdump_access = "CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';";   
+	$dbdump_access_user = "CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';";
+	$dbdump_access_db = "CREATE DATABASE shopping;";
+	$dbdump_acces_rights = "GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';";
 
           }
           else
@@ -84,7 +86,7 @@ ini_set("display_errors", 1);
     \'password\' => "'.$dbpassword.'",
   ];
 ?>';
-
+         }
 
           //mysql dump
           $dbdump = "
@@ -94,7 +96,6 @@ ini_set("display_errors", 1);
             RID int(11) NOT NULL auto_increment,
             primary KEY (RID))
             ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;";
-          }
 
           //try to open/create config.php file
           //success: write config value
@@ -144,13 +145,29 @@ EOCONFIG;
           }
           
           //prepare query
-    	if($createDBUser == "true")
-          	$stmt = $handler->prepare($dbdump_access);
+    	if($createDBUser == "true") {
+          	$stmt1 = $handler->prepare($dbdump_access_user);
+          	$stmt2 = $handler->prepare($dbdump_access_db);
+          	$stmt3 = $handler->prepare($dbdump);
+          	$stmt4 = $handler->prepare($dbdump_acces_rights);
+    	}
           else
 		$stmt = $handler->prepare($dbdump);
           var_dump($stmt);
           //execute query and check if successful
-          if ($stmt->execute())
+          if($createDBUser == "true") {
+          	if($stmt1->execute() && $stmt2->execute() && $stmt3->execute() && $stmt4->execute())
+          		$mysql_error = false;
+          	else
+          		$mysql_error = true;	
+          }
+          else {
+          	if($stmt->execute())
+          		$mysql_error = false;
+          	else
+          		$mysql_error = true;
+          }
+          if (!$mysql_error)
             echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
           else 
             echo '<div class="alert alert-danger" role="alert">
