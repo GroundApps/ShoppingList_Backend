@@ -36,6 +36,14 @@
           $createDBUser = (isset($_POST['createDBUser']) ? $_POST['createDBUser'] : "");
           $dbrandom_pwd = generateRandomPWD();
           
+          $filename = 'shoppinglist.sqlite';
+          
+           if($dbtype === 'SQLite'){
+            $htaccess = "\n<files ".$filename.">\norder allow,deny\ndeny from all\n</files>\n";
+            file_put_contents('.htaccess', $htaccess, FILE_APPEND);
+          }
+          
+          
           //create config file value
           if($createDBUser == "true") {
           	$config_access = '
@@ -45,7 +53,7 @@
   $dataBase = "'.$dbtype.'";
   //only for SQLite
   $SQLiteConfig = [
-    \'file\' => "shoppinglist.sqlite",
+    \'file\' => "'.$filename.'",
   ];
   //only for MySQL
   $MySQLConfig = [
