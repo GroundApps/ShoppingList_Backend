@@ -57,7 +57,7 @@ ini_set("display_errors", 1);
     \'host\' => "'.$dbhost.'",
     \'db\' => "shopping",
     \'user\' => "ShoppingListUser",
-    \'password\' => "'.$dbrandom_pw.'d",
+    \'password\' => "'.$dbrandom_pwd.'",
   ];
 ?>';          	
 
