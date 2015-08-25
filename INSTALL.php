@@ -95,7 +95,7 @@
 						RID int(11) NOT NULL auto_increment,
 						primary KEY (RID))
 						ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
-						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."";
+						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."'";
 						FLUSH PRIVILEGES;
 					";
 
