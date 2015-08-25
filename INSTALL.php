@@ -24,7 +24,16 @@
           $dbuser = $_POST['dbuser'];
           $dbpassword = $_POST['dbpassword'];
           
+          //set up .htaccess rules for sqlite database if sqlite is used
+          
+          if($dbtype === 'SQLite'){
+            $filename = 'shoppinglist.sqlite';
+            $htaccess = "\n<files ".$filename.">\norder allow,deny\ndeny from all\n</files>\n";
+            file_put_contents('.htaccess', $htaccess, FILE_APPEND);
+          }
+          
           //create config file value
+          
           $config = '
 <?php
   $authKey = \''.$apikey.'\';
@@ -32,7 +41,7 @@
   $dataBase = "'.$dbtype.'";
   //only for SQLite
   $SQLiteConfig = [
-    \'file\' => "shoppinglist.sqlite",
+    \'file\' => "'.$filename.'",
   ];
   //only for MySQL
   $MySQLConfig = [

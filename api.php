@@ -15,6 +15,11 @@ $auth = $_POST['auth'];
 
 include('config.php');
 
+if($authKey === ''){
+	header("Location: INSTALL.php");
+	exit();
+}
+
 switch($dataBase){
 	case 'SQLite':
 		$dbConnector = "sqlite_connector.php";
