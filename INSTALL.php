@@ -156,7 +156,7 @@ EOCONFIG;
           
           //prepare query
     			if($createDBUser == "true")
-          	$stmt = $handler->prepare($dbdum_access);
+          	$stmt = $handler->prepare($dbdump_access);
           else
         		$stmt = $handler->prepare($dbdump);
           
