@@ -32,11 +32,11 @@ ini_set("display_errors", 1);
           //set vars
           //hash api key with bcrypt
           $apikey = password_hash($_POST['apikey'], PASSWORD_BCRYPT);
-          $dbtype = $_POST['type'];
-          $dbhost = isset($_POST['hostname']);
-          $dbname = isset($_POST['database']);
-          $dbuser = isset($_POST['dbuser']);
-          $dbpassword = isset($_POST['dbpassword']);
+          $dbtype = $_POST['type']; echo $dbtype."<br />";
+          $dbhost = isset($_POST['hostname']);echo $dbhost."<br />";
+          $dbname = isset($_POST['database']);echo $dbname."<br />";
+          $dbuser = isset($_POST['dbuser']);echo $dbuser."<br />";
+          $dbpassword = isset($_POST['dbpassword']);echo $dbpassword."<br />";
           $createDBUser = isset($_POST['createDBUser']);
           
           $dbrandom_pwd = generateRandomPWD();
@@ -144,9 +144,7 @@ EOCONFIG;
 						$handler = new mysqli($dbhost, $dbuser, $dbpassword);
 					else
 						$handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
-						
-						var_dump($handler);
-       
+
           //check if connection successful
           if ($handler->connect_error) {
           	die(mysql_error());
