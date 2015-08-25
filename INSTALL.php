@@ -149,7 +149,6 @@ EOCONFIG;
           	$stmt1 = $handler->prepare($dbdump_access);
           	$stmt2 = $handler->prepare($dbdump_access2);
           	$stmt3 = $handler->prepare($dbdump_access3);
-          	$stmt4 = $handler->prepare($dbdump);
     	}
           else
 		$stmt = $handler->prepare($dbdump);
@@ -161,6 +160,7 @@ EOCONFIG;
           		$stmt3->execute();
           		$mysql_error = false;
           		$handler = new mysqli($dbhost, $dbuser, $dbpassword, 'shopping');
+          		$stmt4 = $handler->prepare($dbdump);
           		if($stmt4->execute())
           			$mysql_error = false;
           		else
