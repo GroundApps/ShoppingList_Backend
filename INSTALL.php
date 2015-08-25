@@ -167,7 +167,7 @@ jQuery(document).ready(function(){
         </div>
       </div>
     </div><br /><br style="font-size:5px"/>
-    <small>This Step will write the config in the config.php file. When the script have no write access it will display the value of the config.php. You must copy then this value and put it by yourself in the config.php. The script also create the table with the SQL Dump.</small><br ><br >
+    <small>Click Create to write the necessary configuration to config.php and in case of MySQL to create a table for the list storage in the given database.</small><br ><br >
     <button type="submit" class="btn btn-primary" name="createConfig"> Create </button></div>
     </form>
     </div>
