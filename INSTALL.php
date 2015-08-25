@@ -225,7 +225,8 @@ jQuery(document).ready(function(){
           <div class="input-group-addon"><i class="fa fa-database"></i></div>
           <input type="text" class="form-control" name="database" placeholder="Database Name" size="35">
         </div>
-      </div><br /><br style="font-size:5px"/>
+        <br /><br style="font-size:5px"/>
+      </div>
       <div class="form-group">
         <div class="input-group">
           <div class="input-group-addon"><i class="fa fa-user"></i></div>
