@@ -37,7 +37,7 @@ ini_set("display_errors", 1);
           $dbname =  (isset($_POST['database']) ? $_POST['database'] : "");
           $dbuser = $_POST['dbuser'];
           $dbpassword = $_POST['dbpassword'];
-          $createDBUser = $_POST['createDBUser'];
+          $createDBUser = (isset($_POST['createDBUser']) ? $_POST['createDBUser'] : "");
           
           $dbrandom_pwd = generateRandomPWD();
           
