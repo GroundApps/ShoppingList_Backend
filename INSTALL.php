@@ -63,7 +63,7 @@ ini_set("display_errors", 1);
 
 					//mysql dump for root access
 					$dbdump_access = "
-						CREATE USER 'ShoppingListUser'@'localhost' IDENTIFIED BY '".$dbrandom_pwd."';
+						CREATE USER 'ShoppingListUser'@'".$dbhost."' IDENTIFIED BY '".$dbrandom_pwd."';
 						CREATE DATABASE shopping;
 						USE shopping;
 						CREATE TABLE ShoppingList (
@@ -74,7 +74,9 @@ ini_set("display_errors", 1);
 						ENGINE=InnoDB DEFAULT COLLATE=utf8_general_ci;
 						GRANT ALL PRIVILEGES ON shopping.ShoppingList TO 'ShoppingListUser'@'".$dbhost."';
 						FLUSH PRIVILEGES;
-					";          	
+					";   
+					
+					echo $dbdump_access;
           }
           else
           {
