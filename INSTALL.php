@@ -32,12 +32,12 @@ ini_set("display_errors", 1);
           //set vars
           //hash api key with bcrypt
           $apikey = password_hash($_POST['apikey'], PASSWORD_BCRYPT);
-          $dbtype = $_POST['type']; echo $dbtype."<br />";
+          $dbtype = $_POST['type'];
           $dbhost = $_POST['hostname'];
           $dbname =  (isset($_POST['database']) ? $_POST['database'] : "");
           $dbuser = $_POST['dbuser'];
           $dbpassword = $_POST['dbpassword'];
-          $createDBUser = $_POST['createDBUser';]
+          $createDBUser = $_POST['createDBUser'];
           
           $dbrandom_pwd = generateRandomPWD();
           
@@ -147,12 +147,11 @@ EOCONFIG;
 
           //check if connection successful
           if ($handler->connect_error) {
-          	die(mysql_error());
-          	//die('
-         // <div class="alert alert-danger" role="alert">
-          //  No Connection to your Database. Please correct your Informations!
-         // </div>	
-          //	');
+          	die('
+          <div class="alert alert-danger" role="alert">
+            No Connection to your Database. Please correct your Informations!
+          </div>	
+          	');
           }
           
           //prepare query
