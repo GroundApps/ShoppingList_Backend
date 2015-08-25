@@ -132,8 +132,11 @@ EOCONFIG;
         //when DB Type MySQL create table    
         if($dbtype == "MySQL")
         {
-          $handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
-          
+					if($createDBUser == "true")
+						$handler = new mysqli($dbhost, $dbuser, $dbpassword);
+					else
+						$handler = new mysqli($dbhost, $dbuser, $dbpassword, $dbname);
+       
           //check if connection successful
           if ($handler->connect_error) {
           	die('
