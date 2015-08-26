@@ -48,7 +48,7 @@
           if($createDBUser == "true") {
           	$config_access = '
 <?php
-  $authKey = "'.$apikey.'";
+  $authKey = \''.$apikey.'\';
 
   $dataBase = "'.$dbtype.'";
   //only for SQLite
