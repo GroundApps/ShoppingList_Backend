@@ -11,7 +11,7 @@
 You can either use MySQL or SQLite. SQLite is easier to set up.
 
 ####Installation
-To install the backend, go to http://your.path/INSTALL.php.
+To install the backend, go to http://your.path/.
 Fill up the form, click on create!
 That's all.
 
