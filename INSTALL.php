@@ -40,11 +40,11 @@
           //set up .htaccess rules for sqlite database if sqlite is used
 
           $htaccess = "Options ALL -Indexes\nDirectoryIndex api.php";
-           if($dbtype === 'SQLite'){
+          if($dbtype === 'SQLite'){
             $htaccess .= "\n<files ".$filename.">\norder allow,deny\ndeny from all\n</files>\n";
           }
            
-            file_put_contents('.htaccess', $htaccess);
+          file_put_contents('.htaccess', $htaccess);
           //create config file value
 
           if($createDBUser == "true") {
