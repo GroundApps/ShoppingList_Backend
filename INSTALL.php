@@ -37,14 +37,14 @@
           $dbrandom_pwd = generateRandomPWD();
           
           $filename = 'shoppinglist.sqlite';
-          
+          //set up .htaccess rules for sqlite database if sqlite is used
            if($dbtype === 'SQLite'){
             $htaccess = "\n<files ".$filename.">\norder allow,deny\ndeny from all\n</files>\n";
             file_put_contents('.htaccess', $htaccess, FILE_APPEND);
           }
-          
-          
+           
           //create config file value
+
           if($createDBUser == "true") {
           	$config_access = '
 <?php
@@ -72,14 +72,15 @@
           }
           else
           {
+
           $config = '
 <?php
-  $authKey = "'.$apikey.'";
+  $authKey = \''.$apikey.'\';
 
   $dataBase = "'.$dbtype.'";
   //only for SQLite
   $SQLiteConfig = [
-    \'file\' => "shoppinglist.sqlite",
+    \'file\' => "'.$filename.'",
   ];
   //only for MySQL
   $MySQLConfig = [
@@ -268,7 +269,7 @@ jQuery(document).ready(function(){
         </div>
       </div>
     </div><br /><br style="font-size:5px"/>
-    <small>This Step will write the config in the config.php file. When the script have no write access it will display the value of the config.php. You must copy then this value and put it by yourself in the config.php. The script also create the table with the SQL Dump.</small><br ><br >
+    <small>Click Create to write the necessary configuration to config.php and in case of MySQL to create a table for the list storage in the given database.</small><br ><br >
     <button type="submit" class="btn btn-primary" name="createConfig"> Create </button></div>
     </form>
     </div>
