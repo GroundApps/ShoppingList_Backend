@@ -12,6 +12,10 @@
     <div class="row">
       <div class="col-md-4 col-md-offset-5">  
       <?php
+	
+	if (version_compare(phpversion(), '5.3.7', '>=') AND version_compare(phpversion(), '5.5', '<'))
+		require_once('func.inc.php');
+
       //Start on submit form
         if(isset($_POST['createConfig']))
         {
