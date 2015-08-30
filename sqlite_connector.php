@@ -9,7 +9,7 @@
             try{
                 $this->db = new SQLite3($dbfile, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
             }catch(Exception $e){
-                die(json_encode(array('code' => 'error', 'comment' => $e->getMessage())));
+                die(json_encode(array('type' => API_ERROR_DATABASE_CONNECT, 'content' => $e->getMessage())));
             }
             $resultQuery = $this->db->query("SELECT COUNT(*) as count FROM sqlite_master WHERE type='table' AND name='itemlist'");
             $row = $resultQuery->fetchArray();
@@ -56,9 +56,9 @@
         function save($item, $count){
             $resultQuery = $this->db->query("INSERT INTO itemlist (ITEM, COUNT) VALUES('".$item."', ".$count.");");
             if($resultQuery){
-                $result = json_encode(array('code' => 'success', 'comment' => $item.' saved.'));
+                $result = json_encode(array('type' => API_SUCCESS_SAVE, 'content' => $item.' saved.'));
             }else{
-                $result = json_encode(array('code' => 'error', 'comment' => 'Saving failed'));
+                $result = json_encode(array('type' => API_ERROR_SAVE, 'content' => 'Saving failed'));
             }
             return $result;
         }
@@ -66,9 +66,9 @@
         function update($item, $count){
             $resultQuery = $this->db->query("UPDATE itemlist SET COUNT = ".$count." WHERE ITEM = '".$item."';");
             if($resultQuery){
-                $result = json_encode(array('code' => 'success', 'comment' => $item.' updated.'));
+                $result = json_encode(array('type' => API_SUCCESS_UPDATE, 'content' => $item.' updated.'));
             }else{
-                $result = json_encode(array('code' => 'error', 'comment' => 'Updating failed'));
+                $result = json_encode(array('type' => API_ERROR_UPDATE_, 'content' => 'Updating failed'));
             }
             return $result;
         }
@@ -76,9 +76,9 @@
         function delete($item){
             $resultQuery = $this->db->query("DELETE FROM itemlist WHERE ITEM = '".$item."';");
             if($resultQuery){
-                $result = json_encode(array('code' => 'success', 'comment' => $item.' deleted.'));
+                $result = json_encode(array('type' => API_SUCCESS_DELETE, 'content' => $item.' deleted.'));
             }else{
-                $result = json_encode(array('code' => 'error', 'comment' => 'Deleting failed'));
+                $result = json_encode(array('type' => API_ERROR_DELETE, 'content' => 'Deleting failed'));
             }
             return $result;
         }
@@ -87,9 +87,9 @@
             $resultQuery = $this->db->query("DELETE FROM itemlist;");
             $this->db->exec("VACUUM;");
             if($resultQuery){
-                $result = json_encode(array('code' => 'success', 'comment' => 'List cleared'));
+                $result = json_encode(array('type' => API_SUCCESS_CLEAR, 'content' => 'List cleared'));
             }else{
-                $result = json_encode(array('code' => 'error', 'comment' => 'Clearing failed'));
+                $result = json_encode(array('type' => API_ERROR_CLEAR, 'content' => 'Clearing failed'));
             }
             return $result;
         }

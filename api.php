@@ -32,7 +32,7 @@ switch($dataBase){
 	default:
 		$dbConnector = "";
 		$dbConfig = "";
-		die (json_encode(array('code' => 'error', 'comment' => 'no database type specified')));
+		die (json_encode(array('type' => API_ERROR_NO_DATABASE, 'content' => 'no database type specified')));
 }
 
 
@@ -65,7 +65,7 @@ include $dbConnector;
 			echo $db->clear();
 		break;
 		default:
-		die (json_encode(array('code' => 'error', 'comment' => 'function not specified')));
+		die (json_encode(array('type' => API_ERROR_FUNCTION_NOT_SPECIFIED, 'content' => 'function not specified')));
 		
 	}
 
