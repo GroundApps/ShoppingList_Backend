@@ -26,12 +26,7 @@
             $resultQuery = $this->db->query("SELECT ITEM, COUNT FROM itemlist ORDER BY ITEM ASC;");
             $stack = [];
             if(!$resultQuery){
-                $dummy = [
-                    'item' => "",
-                    'count' => 0,
-                ];
-                array_push($stack, $dummy);
-                return $stack;
+                return json_encode(array('type' => API_SUCCESS_LIST_EMPTY));
             }
             while($item = $resultQuery->fetchArray()){
                 $itemData = [
@@ -40,7 +35,7 @@
                 ];
                 array_push($stack, $itemData);
             }
-            return json_encode($stack);
+            return json_encode(array('type' => API_SUCCESS_LIST, 'items' => $stack));
         }
          
         function exists($item){
