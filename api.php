@@ -1,5 +1,6 @@
  <?php
-    
+    include "CONSTANTS.php";
+	
  if(!function_exists('hash_equals')) {
  	function hash_equals($a, $b) {
  		$ret = strlen($a) ^ strlen($b);
@@ -10,12 +11,14 @@
     
 $itemName = $_POST['item'];
 $itemCount = $_POST['count'];
+$jsonData = $_POST['jsonArray'];
 $function = $_POST['function'];
 $auth = $_POST['auth'];
+//$function = "saveMultiple";
 
 include('config.php');
 
-if($authKey === ''){
+if($authKey == ''){
 	header("Location: INSTALL.php");
 	exit();
 }
@@ -54,6 +57,12 @@ include $dbConnector;
 			} else {
 				echo $db->save($itemName, $itemCount);
 			}
+		break;
+		case 'saveMultiple':
+			echo $db->saveMultiple($jsonData);
+		break;
+		case 'deleteMultiple':
+			echo $db->deleteMultiple($jsonData);
 		break;
 		case 'update':
 			echo $db->update($itemName, $itemCount);

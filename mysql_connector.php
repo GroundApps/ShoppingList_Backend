@@ -43,6 +43,76 @@
 			//return result
 			return $result;
             }
+			
+		function saveMultiple($jsonData)
+            {
+				if(empty($jsonData)) {
+					die(json_encode(array('type' => API_ERROR_MISSING_PARAMETER, 'content' => 'parameter missing for saveMultiple')));
+				}
+            //connect to db
+            $handler = new mysqli($this->server, $this->username, $this->password, $this->database);
+			
+			//check if connection successful
+			if ($handler->connect_error) {
+				die(json_encode(array('type' => API_ERROR_DATABASE_CONNECT, 'content' => $handler->connect_error)));
+			}
+			//iterate over all items in json array
+			$array = json_decode( $jsonData, true );
+			foreach($array as $item)
+			{
+				//prepare query
+				$stmt = $handler->prepare("INSERT into ShoppingList(item,count) VALUES(?,?)");
+				$stmt->bind_param('ss', $item['itemTitle'], $item['itemCount']);
+
+				//execute query and check if successful
+				if ($stmt->execute()){
+					$result = json_encode(array('type' => API_SUCCESS_SAVE, 'content' => ' Multiple items saved'));
+				} else {
+					$result = json_encode(array('type' => API_ERROR_SAVE, 'content' => $stmt->error));
+				}
+			}
+				
+			//close connection
+			$stmt->close();
+			
+			//return result
+			return $result;
+            }
+			
+		function deleteMultiple($jsonData)
+            {
+				if(empty($jsonData)) {
+					die(json_encode(array('type' => API_ERROR_MISSING_PARAMETER, 'content' => 'parameter missing for deleteMultiple')));
+				}
+            //connect to db
+            $handler = new mysqli($this->server, $this->username, $this->password, $this->database);
+			
+			//check if connection successful
+			if ($handler->connect_error) {
+				die(json_encode(array('type' => API_ERROR_DATABASE_CONNECT, 'content' => $handler->connect_error)));
+			}
+			//iterate over all items in json array
+			$array = json_decode( $jsonData, true );
+			foreach($array as $item)
+			{
+				//prepare query
+				$stmt = $handler->prepare("DELETE from ShoppingList WHERE item = ?");
+				$stmt->bind_param('s', $item['itemTitle']);
+
+				//execute query and check if successful
+				if (!$stmt->execute()){
+					$result = json_encode(array('type' => API_SUCCESS_DELETE, 'content' => ' Multiple items deleted'));
+				} else {
+					$result = json_encode(array('type' => API_ERROR_DELETE, 'content' => $stmt->error));
+				}
+			}
+				
+			//close connection
+			$stmt->close();
+			
+			//return result
+			return $result;
+            }
 
         function update($itemName, $itemCount)
             {
