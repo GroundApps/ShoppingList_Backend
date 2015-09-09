@@ -24,9 +24,8 @@
          
         function listall(){
             $resultQuery = $this->db->query("SELECT ITEM, COUNT FROM itemlist ORDER BY ITEM ASC;");
-            var_dump($resultQuery->fetchArray());
             $stack = [];
-            if(!$resultQuery || !$resultQuery->fetchArray()){
+            if(!$resultQuery){
                 return json_encode(array('type' => API_SUCCESS_LIST_EMPTY));
             }
             while($item = $resultQuery->fetchArray()){
@@ -36,7 +35,11 @@
                 ];
                 array_push($stack, $itemData);
             }
-            return json_encode(array('type' => API_SUCCESS_LIST, 'items' => $stack));
+            if(count($stack) == 0){
+                return json_encode(array('type' => API_SUCCESS_LIST_EMPTY));
+            }else{
+                return json_encode(array('type' => API_SUCCESS_LIST, 'items' => $stack));
+            }
         }
          
         function exists($item){
