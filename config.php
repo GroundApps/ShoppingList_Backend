@@ -7,16 +7,16 @@
 	
 	$dataBase = "SQLite";
 	//only for SQLite
-	$SQLiteConfig = [
+	$SQLiteConfig = array(
         'file' => "shoppinglist.sqlite",
-	];
+	);
 	//only for MySQL
-	$MySQLConfig = [
+	$MySQLConfig = array(
         'host' => "host",
         'db' => "db",
         'user' => "user",
         'password' => "password",
-    ];
+    );
     
     if($argc > 1){
 		echo password_hash($argv[1], PASSWORD_BCRYPT);

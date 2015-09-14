@@ -24,20 +24,20 @@
          
         function listall(){
             $resultQuery = $this->db->query("SELECT ITEM, COUNT FROM itemlist ORDER BY ITEM ASC;");
-            $stack = [];
+            $stack = array();
             if(!$resultQuery){
-                $dummy = [
+                $dummy = array(
                     'item' => "",
                     'count' => 0,
-                ];
+                );
                 array_push($stack, $dummy);
                 return $stack;
             }
             while($item = $resultQuery->fetchArray()){
-                $itemData = [
+                $itemData = array(
                     'item' => $item['ITEM'],
                     'count' => $item['COUNT'],
-                ];
+                );
                 array_push($stack, $itemData);
             }
             return json_encode($stack);
