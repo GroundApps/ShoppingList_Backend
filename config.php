@@ -19,10 +19,10 @@
 	/*##########################################################
 	# SQLite Config						   #
 	############################################################*/		
-	$SQLiteConfig = ['file' => "shoppinglist.sqlite"];
+	$SQLiteConfig = array('file' => "shoppinglist.sqlite");
 	/*##########################################################
 	# MySQL Config						   #
 	############################################################*/
-	$MySQLConfig = ['host' => "host",'db' => "db",'user' => "user",'password' => "password",];
+	$MySQLConfig = array('host' => "host",'db' => "db",'user' => "user",'password' => "password",);
 ?>
 
