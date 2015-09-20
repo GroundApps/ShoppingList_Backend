@@ -58,16 +58,16 @@
 
   $dataBase = "'.$dbtype.'";
   //only for SQLite
-  $SQLiteConfig = array(
+  $SQLiteConfig = [
     \'file\' => "'.$filename.'",
-  );
+  ];
   //only for MySQL
-  $MySQLConfig = array(
+  $MySQLConfig = [
     \'host\' => "'.$dbhost.'",
     \'db\' => "shopping",
     \'user\' => "ShoppingListUser",
     \'password\' => "'.$dbrandom_pwd.'",
-  );
+  ];
 ?>';          	
 
 	//mysql dump for root access
@@ -85,16 +85,16 @@
 
   $dataBase = "'.$dbtype.'";
   //only for SQLite
-  $SQLiteConfig = array(
+  $SQLiteConfig = [
     \'file\' => "'.$filename.'",
-  );
+  ];
   //only for MySQL
-  $MySQLConfig = array(
+  $MySQLConfig = [
     \'host\' => "'.$dbhost.'",
     \'db\' => "'.$dbname.'",
     \'user\' => "'.$dbuser.'",
     \'password\' => "'.$dbpassword.'",
-  );
+  ];
 ?>';
          }
 

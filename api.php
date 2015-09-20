@@ -1,5 +1,7 @@
  <?php
-    
+    include "CONSTANTS.php";
+	header("ShoLiBackendVersion: ".BACKEND_VERSION);
+	
  if(!function_exists('hash_equals')) {
  	function hash_equals($a, $b) {
  		$ret = strlen($a) ^ strlen($b);
@@ -10,14 +12,19 @@
     
 $itemName = $_POST['item'];
 $itemCount = $_POST['count'];
+$jsonData = $_POST['jsonArray'];
 $function = $_POST['function'];
 $auth = $_POST['auth'];
 
 include('config.php');
 
-if($authKey === ''){
-	header("Location: INSTALL.php");
-	exit();
+if($authKey == ''){
+	if ($_SERVER['HTTP_USER_AGENT'] != "ShoLiApp"){
+		header("Location: INSTALL.php");
+		exit();
+	} else {
+		die (json_encode(array('type' => API_ERROR_NOT_CONFIGURED, 'content' => 'Backend has not been configured yet!')));
+	}
 }
 
 switch($dataBase){
@@ -32,15 +39,14 @@ switch($dataBase){
 	default:
 		$dbConnector = "";
 		$dbConfig = "";
-		die (json_encode(array('code' => 'error', 'comment' => 'no database type specified')));
+		die (json_encode(array('type' => API_ERROR_NO_DATABASE, 'content' => 'no database type specified')));
 }
 
 
 include $dbConnector;
 	
 	if (!hash_equals($authKey, crypt($auth, $authKey))){
-		header("HTTP/1.1 403 Forbidden");
-		die (json_encode(array('code' => 'error', 'comment' => 'auth failed with authkey: '. $auth)));
+		die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
 	}
 	
 	$db = NEW DataBase($dbConfig);
@@ -56,6 +62,12 @@ include $dbConnector;
 				echo $db->save($itemName, $itemCount);
 			}
 		break;
+		case 'saveMultiple':
+			echo $db->saveMultiple($jsonData);
+		break;
+		case 'deleteMultiple':
+			echo $db->deleteMultiple($jsonData);
+		break;
 		case 'update':
 			echo $db->update($itemName, $itemCount);
 		break;
@@ -66,7 +78,7 @@ include $dbConnector;
 			echo $db->clear();
 		break;
 		default:
-		die (json_encode(array('code' => 'error', 'comment' => 'function not specified')));
+		die (json_encode(array('type' => API_ERROR_FUNCTION_NOT_SPECIFIED, 'content' => 'function not specified')));
 		
 	}
 
