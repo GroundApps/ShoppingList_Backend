@@ -30,8 +30,9 @@
             }
             while($item = $resultQuery->fetchArray()){
                 $itemData = array(
-                    'item' => $item['ITEM'],
-                    'count' => $item['COUNT'],
+                    'itemTitle' => $item['ITEM'],
+                    'itemCount' => $item['COUNT'],
+					'checked' => false
                 );
                 array_push($stack, $itemData);
             }

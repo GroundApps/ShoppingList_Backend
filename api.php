@@ -1,5 +1,6 @@
  <?php
     include "CONSTANTS.php";
+	header("ShoLiBackendVersion: ".BACKEND_VERSION);
 	
  if(!function_exists('hash_equals')) {
  	function hash_equals($a, $b) {
@@ -14,13 +15,16 @@ $itemCount = $_POST['count'];
 $jsonData = $_POST['jsonArray'];
 $function = $_POST['function'];
 $auth = $_POST['auth'];
-//$function = "saveMultiple";
 
 include('config.php');
 
 if($authKey == ''){
-	header("Location: INSTALL.php");
-	exit();
+	if ($_SERVER['HTTP_USER_AGENT'] != "ShoLiApp"){
+		header("Location: INSTALL.php");
+		exit();
+	} else {
+		die (json_encode(array('type' => API_ERROR_NOT_CONFIGURED, 'content' => 'Backend has not been configured yet!')));
+	}
 }
 
 switch($dataBase){
