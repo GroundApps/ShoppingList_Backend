@@ -10,11 +10,11 @@
  	}
  }   
     
-$itemName = $_POST['item'];
-$itemCount = $_POST['count'];
-$jsonData = $_POST['jsonArray'];
-$function = $_POST['function'];
-$auth = $_POST['auth'];
+$itemName = array_key_exists('item', $_POST) ? $_POST['item'] : null;
+$itemCount = array_key_exists('count', $_POST) ? $_POST['count'] : null;
+$jsonData = array_key_exists('jsonArray', $_POST) ? $_POST['jsonArray'] : null;
+$function = array_key_exists('function', $_POST) ? $_POST['function'] : null;
+$auth = array_key_exists('auth', $_POST) ? $_POST['auth'] : null;
 
 include('config.php');
 
