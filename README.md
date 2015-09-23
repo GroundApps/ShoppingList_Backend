@@ -11,7 +11,8 @@
 You can either use MySQL or SQLite. SQLite is easier to set up.
 
 ####Installation
-To install the backend, go to http://your.path/.
+If you use Ubuntu you can use the [PPA](https://launchpad.net/~jklmnn/+archive/ubuntu/groundapps) by executing `apt-add repository ppa:jklmnn/groundapps`.  
+To install the backend manually , go to http://your.path/.
 Fill up the form, click on create!
 That's all.
 
