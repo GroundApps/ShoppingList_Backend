@@ -137,6 +137,7 @@ EOCONFIG;
   
 EOCONFIG;
           }
+
         //when DB Type MySQL create table    
         if($dbtype == "MySQL")
         {
@@ -197,7 +198,25 @@ EOCONFIG;
         }
         else
         {
+
           echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
+
+          if(is_writable(dirname("tmp/config-qr.png"))) {
+		   include('lib/phpqrcode-git/lib/full/qrlib.php');
+		   $url = "http" . (($_SERVER['SERVER_PORT'] == 443) ? "s://" : "://") . $_SERVER['HTTP_HOST'];
+           $uri = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '/') + 1);
+           $api_url = $url . $uri . "api.php";
+	       $ak = $_POST['apikey'];
+		   $ssl = (($_SERVER['SERVER_PORT'] == 443) ? "true" : "false");
+
+		   $qr_code = "{ \"url\": \"$api_url\", \"apikey\": \"$ak\", \"ssl\": $ssl}";
+
+    	   QRcode::png("$qr_code", "tmp/config-qr.png");
+		   echo <<<EOQR
+				<img src="tmp/config-qr.png" /><br />
+				<p>Open your app and scan code for automatically configuration</p>
+EOQR;
+        }
         }
         }
         else
