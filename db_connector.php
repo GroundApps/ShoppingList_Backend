@@ -96,7 +96,12 @@
             echo $jsonData."\n";
             var_dump(json_decode($jsonData));
             $itemList = json_decode($jsonData, true);
-            try{
+            $returns = array();
+            foreach($itemList as $item){
+                array_push($returns, array('itemTitle' => $item['itemTitle'], 'error' => $this->save($item['itemTitle'], $item['itemCount'])));
+            }
+            return json_encode($returns);
+            /*try{
                 $stmt = $this->db->prepare("INSERT INTO $this->table (item, count, checked) VALUES (:item, :count, :checked);");
                 $checked = (int)false;
                 $stmt->bindParam(':checked', $checked, PDO::PARAM_INT);
@@ -108,7 +113,7 @@
                 return json_encode(array('type' => API_SUCCESS_SAVE, 'content' => 'Multiple items saved.'));
             }catch(PDOException $e){
                 return json_encode(array('type' => API_ERROR_SAVE, 'content' => $e->getMessage()));
-            }
+            }*/
         }
         
         function update($item, $count){
@@ -128,7 +133,12 @@
                 die(json_encode(array('type' => API_ERROR_MISSING_PARAMETER, 'content' => 'Parameter missing for deleteMultiple.')));
             }
             $itemList = json_decode($jsonData, true);
-            try{
+            $returns = array();
+            foreach($itemList as $item){
+                array_push($returns, array('itemTitle' => $item['itemTitle'], 'error' => $this->delete($item['itemTitle'])));
+            }
+            return json_encode($returns);
+            /*try{
                 $stmt = $this->db->prepare("DELETE FROM $this->table WHERE item=:item;");
                 foreach($itemList as $item){
                     $stmt->bindParam(':item', $item['itemTitle'], PDO::PARAM_STR);
@@ -137,7 +147,7 @@
                 return json_encode(array('type' => API_SUCCESS_DELETE, 'content' => 'Multiple items deleted.'));
             }catch(PDOException $e){
                 return json_encode(array('type' => API_ERROR_DELETE, 'content' => $e->getMessage()));
-            }
+            }*/
         }
         
         function delete($item){
