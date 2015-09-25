@@ -26,4 +26,5 @@
     define('API_ERROR_DELETE', 6003);
     define('API_ERROR_SAVE', 6004);
 	define('API_ERROR_CLEAR', 6005);
+    define('API_ERROR_LIST', 6006);
 ?>
