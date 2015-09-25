@@ -29,11 +29,9 @@ if($authKey == ''){
 
 switch($dataBase){
 	case 'SQLite':
-		$dbConnector = "sqlite_connector.php";
 		$dbConfig = $SQLiteConfig;
 		break;
 	case 'MySQL':
-		$dbConnector = "mysql_connector.php";
 		$dbConfig = $MySQLConfig;
 		break;
 	default:
@@ -43,14 +41,14 @@ switch($dataBase){
 }
 
 
-include $dbConnector;
+include('db_connector.php');
 	
 	if (!hash_equals($authKey, crypt($auth, $authKey))){
 		die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
 	}
 	
-	$db = NEW DataBase($dbConfig);
-	
+	$db = NEW DataBase($dataBase, $dbConfig);
+	$db->init(); //TODO: put this to INSTALL.php
 	switch ($function){
 		case 'listall':
 			echo $db->listall();
