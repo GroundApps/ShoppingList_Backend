@@ -198,7 +198,7 @@ EOCONFIG;
         if (!$mysql_error) {
             echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
 
-            echo '<img src="data:image/gif;base64,' . get_qrcode($_POST['apikey']) . '"/><br />
+            echo '<img src="data:image/png;base64,' . get_qrcode($_POST['apikey']) . '"/><br />
                 <p>Open your app and scan code for automatically configuration</p>';
 
         } else {
@@ -209,7 +209,7 @@ EOCONFIG;
     } else {
         echo '<div class="alert alert-success" role="alert">All done! Please delete the INSTALL.php file!</div>';
 
-        echo '<img src="data:image/gif;base64,' . get_qrcode($_POST['apikey']) . '"/><br />
+        echo '<img src="data:image/png;base64,' . get_qrcode($_POST['apikey']) . '"/><br />
             <p>Open your app and scan code for automatically configuration</p>';
     }
 } else {
