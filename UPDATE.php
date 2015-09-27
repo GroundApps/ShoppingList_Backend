@@ -111,7 +111,7 @@ echo <<<CHECKLIST
 					<input id="cb_filemove" type="checkbox" disabled="">
 					<label for="cb_filemove" id="progressCopy"> Copy Files</label><br>
 					<input id="cb_databaseupdate" type="checkbox" disabled="">
-					<label for="cb_databaseupdate"> Update Database</label><br>
+					<label id="databaseupdateLabel" for="cb_databaseupdate"> Update Database</label><br>
 			</div>
 		</div>
 	</div>
@@ -129,6 +129,7 @@ echo <<<JS
 	var backupElement = document.getElementById('cb_backup')
 	var filemoveElement = document.getElementById('cb_filemove')
 	var databaseElement = document.getElementById('cb_databaseupdate')
+	var databaseLabel = document.getElementById('databaseupdateLabel')
 	
 	function updateProgress(percentage) {
 		progressElement.innerHTML = 'Download (' + percentage + '%' + ')';
@@ -148,6 +149,10 @@ echo <<<JS
 	function updateDatabase(status) {
 		databaseElement.checked = status;
 	}
+	function updateDatabaseNotNecessary() {
+		databaseLabel.style.setProperty("text-decoration", "line-through");
+	}
+	
 	</script>
 JS;
 }
@@ -185,13 +190,13 @@ function update($zipURL, $newVersion){
 	echoPageEnd();
 }
 
-function echoSuccess(){
+function echoSuccess($message){
 echo <<<SUCCESS
 	<div id="message">
 		<div style="padding: 5px;" >
 			<div id="inner-message" class="alert alert-success" role="alert">
 				<strong>Yeah!</strong>
-				Update completed successfully.
+				$message
 			</div>
 		</div>
 	</div>
@@ -259,12 +264,14 @@ function backup(){
 	$backupFolder = __DIR__.'/backup/';
 	delDir($backupFolder);
 	if(!mkdir($backupFolder, 0770)){
-			die ('Could not create backup folder!');
-		}
+			echoError('Could not create backup folder!');
+			exit;
+	}
 		$iteratorBackup = new DirectoryIterator(__DIR__);
 		foreach ($iteratorBackup as $backupFile) {
 			$backupFileName = $backupFile->getFilename();
-			if ($backupFileName != '.' && $backupFileName != '..' && $backupFileName != 'config.php' && $backupFileName != '.htaccess' && !$backupFile->isDir() && $backupFileName[0] != '.'){
+			//REMOVE CHECK FOR update.sql FOR RELEASE, CURRENTLY USED BECAUSE ZIP FROM GITHUB HAS NONE AND IT WOULD BE DELETED
+			if ($backupFileName != '.' && $backupFileName != '..' && $backupFileName != 'config.php' && $backupFileName != 'update.sql' && $backupFileName != '.htaccess' && !$backupFile->isDir() && $backupFileName[0] != '.'){
 				if(!rename($backupFile->getPathname(), $backupFolder.$backupFile->getFilename())){
 					die ('Could not backup files!');
 				}
@@ -315,23 +322,20 @@ function getGithubData(){
 
 function updateDatabase(){
 	include('config.php');
-	switch($dataBase){
-	case 'SQLite':
-		$dbConnector = "sqlite_connector.php";
-		$dbConfig = $SQLiteConfig;
-		break;
-	case 'MySQL':
-		$dbConnector = "mysql_connector.php";
-		$dbConfig = $MySQLConfig;
-		break;
-	default:
-		$dbConnector = "";
-		$dbConfig = "";
-		echoError('No database type specified in config.php');
-	}
-	include $dbConnector;
 	//IMPLEMENT DATABASE ALTERATION
+	// WITH PDO
+	$updateFILE = __DIR__."/update.sql";
+	if(!file_exists($updateFILE)){
+		echo '<script>updateDatabaseNotNecessary();</script>';
+	} else {
+		$lines = file($updateFILE);
+		foreach ($lines as $line){
+			echo $line.'<br>';
+			//SQL FOR EACH LINE IN update.sql
+		}
 	echo '<script>updateDatabase(true);</script>';
+	}
+	echoSuccess('Update done! Please check if everything works and then delete the backup folder.');
 }
 
 function progress($clientp,$dltotal,$dlnow,$ultotal,$ulnow){
