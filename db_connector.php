@@ -1,6 +1,6 @@
 <?php
 
-    include('CONSTANTS.php');
+    require_once('CONSTANTS.php');
     
     class DataBase{
         

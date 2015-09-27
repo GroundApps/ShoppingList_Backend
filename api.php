@@ -1,5 +1,5 @@
  <?php
-    include "CONSTANTS.php";
+    require_once("CONSTANTS.php");
 	header("ShoLiBackendVersion: ".BACKEND_VERSION);
 	
  if(!function_exists('hash_equals')) {
