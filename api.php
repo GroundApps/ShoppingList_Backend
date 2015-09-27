@@ -10,11 +10,21 @@
  	}
  }   
     
-$itemName = $_POST['item'];
-$itemCount = $_POST['count'];
-$jsonData = $_POST['jsonArray'];
-$function = $_POST['function'];
-$auth = $_POST['auth'];
+if(isset($_POST['item'])) {
+        $itemName = $_POST['item'];
+        }
+if(isset($_POST['count'])) {
+        $itemCount = $_POST['count'];
+        }
+if(isset($_POST['jsonArray'])) {
+        $jsonData = $_POST['jsonArray'];
+        }
+if(isset($_POST['function'])) {
+	$function = $_POST['function'];
+	}
+if(isset($_POST['auth'])) {
+	$auth = $_POST['auth'];
+	}
 
 include('config.php');
 
