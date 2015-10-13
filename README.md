@@ -12,8 +12,10 @@ You can either use MySQL or SQLite. SQLite is easier to set up.
 
 ####Installation
 If you use Ubuntu you can use the [PPA](https://launchpad.net/~jklmnn/+archive/ubuntu/groundapps) by executing `add-apt-repository ppa:jklmnn/groundapps`.  
-To install the backend manually , go to http://your.path/.
-Fill up the form, click on create!
+To install the backend manually , go to http://your.path/INSTALL.php  
+Fill up the form. Enter an API key of your choice, you will have to put the same API in the android app.  
+Choose your backend connection, MySQL or SQLite.  
+Click on create!  
 That's all.
 
 ## Feedback
