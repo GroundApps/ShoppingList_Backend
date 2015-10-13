@@ -10,11 +10,11 @@
  	}
  }   
     
-$itemName = $_POST['item'];
-$itemCount = $_POST['count'];
-$jsonData = $_POST['jsonArray'];
-$function = $_POST['function'];
-$auth = $_POST['auth'];
+$itemName = isset ($_POST['item']) ? $_POST['item'] : NULL;
+$itemCount = isset ($_POST['count']) ? $_POST['count'] : NULL;
+$jsonData = isset ($_POST['jsonArray'])? $_POST['jsonArray'] : NULL;
+$function = isset ($_POST['function']) ? $_POST['function'] : NULL;
+$auth = isset ($_POST['auth']) ? $_POST['auth'] : NULL;
 
 include('config.php');
 

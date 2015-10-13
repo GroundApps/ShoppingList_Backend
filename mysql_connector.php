@@ -1,5 +1,4 @@
  <?php
-	include('CONSTANTS.php');
 	class DataBase
         {
         var $server, $username, $password, $database;
