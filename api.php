@@ -10,11 +10,23 @@
  	}
  }   
     
-$itemName = $_POST['item'];
-$itemCount = $_POST['count'];
-$jsonData = $_POST['jsonArray'];
-$function = $_POST['function'];
+if(isset($_POST['item']))
+	$itemName = $_POST['item'];
+
+if(isset($_POST['count']))
+	$itemCount = $_POST['count'];
+
+if(isset($_POST['jsonArray']))
+	$jsonData = $_POST['jsonArray'];
+
+if(!isset($_POST['function']))
+	die("No function");
+
+if(!isset($_POST['auth']))
+	die("No auth");
+
 $auth = $_POST['auth'];
+$function = $_POST['function'];
 
 include('config.php');
 
@@ -44,10 +56,13 @@ switch($dataBase){
 
 
 include $dbConnector;
-	
+	/* WHAT?
 	if (!hash_equals($authKey, crypt($auth, $authKey))){
 		die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
 	}
+	*/
+	if($auth!==$authKey)
+		die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
 	
 	$db = NEW DataBase($dbConfig);
 	
