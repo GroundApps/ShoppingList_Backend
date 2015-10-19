@@ -42,12 +42,9 @@ switch($dataBase){
 
 
 include('db_connector.php');
-
-	session_start();
-	if (! isset($_SESSION['user_logged']) || $_SESSION['user_logged'] != 1) {
-		if (!hash_equals($authKey, crypt($auth, $authKey))){
-			die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
-		}
+	
+	if (!hash_equals($authKey, crypt($auth, $authKey))){
+		die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
 	}
 	
 	$db = NEW DataBase($dataBase, $dbConfig);
