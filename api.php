@@ -1,4 +1,4 @@
- <?php
+<?php
     require_once("CONSTANTS.php");
 	header("ShoLiBackendVersion: ".BACKEND_VERSION);
 	
