@@ -21,6 +21,8 @@ if [ -e "$SL_ROOT/INSTALL.php" ]; then
     rm "$SL_ROOT/INSTALL.php"
 fi
 
+# Reset permissions
+chown -R nginx:www-data "$SL_ROOT/data"
 
 # Run PHP-FPM
 php-fpm

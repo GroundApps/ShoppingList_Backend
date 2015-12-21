@@ -4,6 +4,6 @@
     $dataBase = "SQLite";
 
     $SQLiteConfig = array(
-        'file' => "shoppinglist.sqlite"
+        'file' => "data/shoppinglist.sqlite"
     );
 ?>

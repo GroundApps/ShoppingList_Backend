@@ -11,7 +11,10 @@ RUN    apk update              \
 
 COPY .                       /shoppinglist
 
-RUN chown -R nginx:www-data /shoppinglist/
+VOLUME [ "/shoppinglist/data" ]
+
+RUN    chown -R nginx:www-data /shoppinglist/      \
+    && chown -R nginx:www-data /shoppinglist/data/
 
 # Copy scripts
 COPY docker/nginx.conf      /etc/nginx/
@@ -23,6 +26,5 @@ EXPOSE 80
 
 ENV API_KEY=""
 
-VOLUME [ "/data" ]
 
 CMD [ "/entrypoint.sh" ]
