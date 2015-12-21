@@ -10,11 +10,14 @@ fi
 
 # Check initialisation state
 if [ -e "$SL_ROOT/INSTALL.php" ]; then
-    hashed_api_key="$( php "$SL_ROOT/docker/hash_apikey.php" "$API_KEY" )"
 
-    sed "s%authKey *= *.*;%authKey = '$hash_apikey';%" "$SL_ROOT/docker/config_sqlite.php" \
+    # Hash the key and add it to config.php
+    hashed_apikey="$( php "$SL_ROOT/docker/hash_apikey.php" "$API_KEY" )"
+
+    sed "s%authKey *= *.*;%authKey = '$hashed_apikey';%" "$SL_ROOT/docker/config_sqlite.php" \
         > "$SL_ROOT/config.php"
 
+    # No need for web install
     rm "$SL_ROOT/INSTALL.php"
 fi
 
