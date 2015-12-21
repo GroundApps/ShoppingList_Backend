@@ -5,6 +5,8 @@ RUN    apk update              \
            nginx               \
            php-fpm             \
            php-json            \
+           php-pdo             \
+           php-pdo_sqlite      \
     && rm -rf /var/cache/apk/*
 
 COPY .                       /shoppinglist
