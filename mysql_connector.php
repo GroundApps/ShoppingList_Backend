@@ -256,7 +256,6 @@
 			
 			//prepare query
 			$stmt = $handler->prepare("TRUNCATE ShoppingList");
-			$stmt->bind_param('s', $itemName);
 
 			//execute query and check if successful
 			if ($stmt->execute()){
