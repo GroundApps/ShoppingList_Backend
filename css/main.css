@@ -1,0 +1,60 @@
+/****************** 
+	Shopping list css for web frontend
+	Reference 	: https://github.com/GroundApps/ShoppingList_Backend
+	Licence 	: http://www.gnu.org/licenses/agpl-3.0.fr.html
+*******************/
+#shopItems { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+	zoom: 1; 
+}
+  
+#shopItems li { 
+	margin: 2px 0px 12px 8px;
+	border-style: solid; 
+	border-width: 0px; 
+}
+
+.itemCheck { width: 40px ; }
+.itemName { }
+.itemQty { width: 36px;}
+.itemQty input { width: 30px;}
+.itemDelete { }
+  
+.itemCheckedTD { font-family: FontAwesome; color: #a94442; }
+.itemCheckedName{ text-decoration:line-through; }
+.itemUncheckedTD { font-family: FontAwesome; color: #3c763d; }
+.itemCheckedTD i::before { content: '\f273'; }
+.itemUncheckedTD i::before { content: '\f274'; }
+
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+#shopItems li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+#shopItems li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}
+.icon::before {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none !important;
+}
+button::before, .button::before {
+    left: -0.5em;
+    padding: 0 0 0 0.75em;
+		color: #aaaaaa;
+    position: relative;
+}

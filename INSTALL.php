@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="row">
-<div class="col-md-4 col-md-offset-5">
+<div class="col-md-4 col-md-offset-4">
 <?php
 
 if (version_compare(phpversion(), '5.3.3', '>=') AND version_compare(phpversion(), '5.5', '<'))
@@ -29,7 +29,7 @@ if(isset($_POST['createConfig'])) {
     }
 
     function get_qrcode($_apikey) {
-        include('lib/phpqrcode-git/lib/full/qrlib.php');
+        include('lib/phpqrcode-git/phpqrcode.php');
         $url = "http" . (($_SERVER['SERVER_PORT'] == 443) ? "s://" : "://") . $_SERVER['HTTP_HOST'];
         $uri = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '/') + 1);
         $api_url = $url . $uri . "api.php";
@@ -114,7 +114,7 @@ if(isset($_POST['createConfig'])) {
 
     //mysql dump
     $dbdump = "
-        CREATE TABLE ShoppingList (
+        CREATE TABLE IF NOT EXISTS ShoppingList (
                 item VARCHAR(255),
                 count VARCHAR(255),
                 RID int(11) NOT NULL auto_increment,

@@ -6,7 +6,7 @@
         
         var $db;
         var $type;
-        var $table = "shoppinglist";
+        var $table = "ShoppingList";
         
         function __construct($dbtype, $dbargs){
             $this->type = $dbtype;
@@ -48,7 +48,7 @@
         
         function listall(){
             try{
-                $sql = "SELECT * FROM $this->table;";
+                $sql = "SELECT * FROM $this->table ORDER BY item ASC";
                 $val = $this->db->query($sql);
                 $stack = array();
                 foreach($val as $row){
@@ -93,27 +93,21 @@
             if(empty($jsonData)){
                 die(json_encode(array('type' => API_ERROR_MISSING_PARAMETER, 'content' => 'parameter missing for saveMultiple')));
             }
-            echo $jsonData."\n";
-            var_dump(json_decode($jsonData));
             $itemList = json_decode($jsonData, true);
-            $returns = array();
+            $success = true;
+            $errors = array();
             foreach($itemList as $item){
-                array_push($returns, array('itemTitle' => $item['itemTitle'], 'error' => $this->save($item['itemTitle'], $item['itemCount'])));
-            }
-            return json_encode($returns);
-            /*try{
-                $stmt = $this->db->prepare("INSERT INTO $this->table (item, count, checked) VALUES (:item, :count, :checked);");
-                $checked = (int)false;
-                $stmt->bindParam(':checked', $checked, PDO::PARAM_INT);
-                foreach($itemList as $item){
-                    $stmt->bindParam(':item', $item['itemTitle'], PDO::PARAM_STR);
-                    $stmt->bindParam(':count', $item['itemCount'], PDO::PARAM_INT);
-                    $stmt->execute();
+                $output = json_decode($this->exists($item['itemTitle']) ? $this->update($item['itemTitle'], $item['itemCount']) : $this->save($item['itemTitle'], $item['itemCount']),true);
+                if($output['type']!=API_SUCCESS_SAVE && $output['type']!=API_SUCCESS_UPDATE) {
+                    $success = false;
+                    array_push($errors, array('itemTitle' => $item['itemTitle'], 'error' => $output['content']));
                 }
-                return json_encode(array('type' => API_SUCCESS_SAVE, 'content' => 'Multiple items saved.'));
-            }catch(PDOException $e){
-                return json_encode(array('type' => API_ERROR_SAVE, 'content' => $e->getMessage()));
-            }*/
+            }
+            if($success) {
+                return json_encode(array('type' => API_SUCCESS_SAVE, 'content' => count($itemList)>1 ? 'Multiple items saved.':$itemList[0]['itemTitle'].' saved.'));
+            } else {
+                return json_encode(array('type' => API_ERROR_SAVE, 'content' => $errors));
+            }
         }
         
         function update($item, $count){
@@ -133,21 +127,20 @@
                 die(json_encode(array('type' => API_ERROR_MISSING_PARAMETER, 'content' => 'Parameter missing for deleteMultiple.')));
             }
             $itemList = json_decode($jsonData, true);
-            $returns = array();
+            $success = true;
+            $errors = array();
             foreach($itemList as $item){
-                array_push($returns, array('itemTitle' => $item['itemTitle'], 'error' => $this->delete($item['itemTitle'])));
-            }
-            return json_encode($returns);
-            /*try{
-                $stmt = $this->db->prepare("DELETE FROM $this->table WHERE item=:item;");
-                foreach($itemList as $item){
-                    $stmt->bindParam(':item', $item['itemTitle'], PDO::PARAM_STR);
-                    $stmt->execute();
+                $output = json_decode($this->delete($item['itemTitle']),true);
+                if($output['type']!=API_SUCCESS_DELETE) {
+                    $success = false;
+                    array_push($errors, array('itemTitle' => $item['itemTitle'], 'error' => $output['content']));
                 }
-                return json_encode(array('type' => API_SUCCESS_DELETE, 'content' => 'Multiple items deleted.'));
-            }catch(PDOException $e){
-                return json_encode(array('type' => API_ERROR_DELETE, 'content' => $e->getMessage()));
-            }*/
+            }
+            if($success) {
+                return json_encode(array('type' => API_SUCCESS_DELETE, 'content' => count($itemList)>1 ? 'Multiple items deleted.':$itemList[0]['itemTitle'].' deleted.'));
+            } else {
+                return json_encode(array('type' => API_ERROR_DELETE, 'content' => $errors));
+            }
         }
         
         function delete($item){
@@ -169,5 +162,5 @@
                 return json_encode(array('type' => API_ERROR_CLEAR, 'content' => $e->getMessage()));
             }
         }
-                
+
     }
