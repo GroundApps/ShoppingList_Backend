@@ -45,6 +45,7 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
+<section id="main">
 <div class="row">
 <div class="col-md-4 col-md-offset-4">
 <h2>Shopping List</h2> 
@@ -71,11 +72,13 @@
 <? /* Add a category (well, will soon): <input type="text" size="15" id="addCategoryName" value=""/> */ ?>
 <button id="checked" class="btn btn-primary icon fa-check">Remove checked</button> 
 <div id="shopcategory"></div>
+<br />
 <?
 	}
 ?>
  
 </div>
 </div>
+</section>
 </body>
 </html>
