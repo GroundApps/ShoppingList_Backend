@@ -55,15 +55,23 @@
 	<form class="form-inline" action="<? echo $_SERVER["REQUEST_URI"]; ?>" method="post">
 		<?php echo $login_error; ?>
 		<h2><small>API Key</small></h2>
-		<div class="form-group">
-			<div class="input-group">
-         <div class="input-group-addon"><i class="fa fa-key"></i></div>
+		<fieldset>
+		<div class="row uniform">
+		<div>
+			<div class="form-group">
+				<div class="input-group">
+        	 <div class="input-group-addon"><i class="fa fa-key"></i></div>
            <input type="password" class="form-control" name="password" placeholder="API Key" size="35">
          </div>
       </div>
-		<br />
-		<br />
-		<button type="submit" class="btn btn-primary icon fa-sign-in" name="submit"> Login </button>
+		</div>
+		</div>
+		<div class="row uniform">
+		<div>
+			<button type="submit" class="btn btn-primary icon fa-sign-in" name="submit"> Login </button>
+		</div>
+		</div>
+		</fieldset>
 	</form>
 <?
 	} else {
