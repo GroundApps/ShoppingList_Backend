@@ -91,6 +91,12 @@ var API_ERROR_LIST=6006;
 		addButtonOBJ.find( "#shopItems" ).sortable({
 			items: "li"	
 		});
+		addButtonOBJ.find( "#addItemName" ).keypress(function( event ) {
+			if ( event.which == 13 ) {
+				event.preventDefault();
+				addButtonOBJ.find( "#addItemButton" ).click();
+			}
+		});
 		//XXX $("#title_"+id).droppable({drop: function (event,ui) { categoryMove(event, ui); } });
 		//XXX $("#title_"+id).droppable({drop: function (event,ui) { categoryMove(event, ui, $("#title_"+id)); }	});
 	
