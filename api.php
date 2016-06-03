@@ -1,5 +1,5 @@
- <?php
-    include "CONSTANTS.php";
+<?php
+    require_once("CONSTANTS.php");
 	header("ShoLiBackendVersion: ".BACKEND_VERSION);
 	
  if(!function_exists('hash_equals')) {
@@ -10,11 +10,11 @@
  	}
  }   
     
-$itemName = $_POST['item'];
-$itemCount = $_POST['count'];
-$jsonData = $_POST['jsonArray'];
-$function = $_POST['function'];
-$auth = $_POST['auth'];
+$itemName = array_key_exists('item', $_POST) ? $_POST['item'] : null;
+$itemCount = array_key_exists('count', $_POST) ? $_POST['count'] : null;
+$jsonData = array_key_exists('jsonArray', $_POST) ? $_POST['jsonArray'] : null;
+$function = array_key_exists('function', $_POST) ? $_POST['function'] : null;
+$auth = array_key_exists('auth', $_POST) ? $_POST['auth'] : null;
 
 include('config.php');
 
@@ -29,11 +29,9 @@ if($authKey == ''){
 
 switch($dataBase){
 	case 'SQLite':
-		$dbConnector = "sqlite_connector.php";
 		$dbConfig = $SQLiteConfig;
 		break;
 	case 'MySQL':
-		$dbConnector = "mysql_connector.php";
 		$dbConfig = $MySQLConfig;
 		break;
 	default:
@@ -43,14 +41,17 @@ switch($dataBase){
 }
 
 
-include $dbConnector;
-	
-	if (!hash_equals($authKey, crypt($auth, $authKey))){
-		die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
+include('db_connector.php');
+
+	session_start();
+	if (! isset($_SESSION['user_logged']) || $_SESSION['user_logged'] != 1) {
+		if (!hash_equals($authKey, crypt($auth, $authKey))){
+			die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
+		}
 	}
 	
-	$db = NEW DataBase($dbConfig);
-	
+	$db = NEW DataBase($dataBase, $dbConfig);
+	$db->init(); //TODO: put this to INSTALL.php
 	switch ($function){
 		case 'listall':
 			echo $db->listall();

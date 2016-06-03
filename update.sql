@@ -1,0 +1,1 @@
+ALTER TABLE ShoppingList ADD COLUMN checked VARCHAR(128);

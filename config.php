@@ -5,24 +5,28 @@
 	############################################################*/
 	
 	/*##########################################################
-	# Auth Key / Password, to get acces to the database	   #
+	# Auth Key / Password, to get acces to the database        #
 	############################################################*/
-    	$authKey = '';
+	$authKey = '';
 	/*##########################################################
-	# Branch: stable, testing, experimental			   #
+	# Branch: stable, testing, experimental                    #
 	############################################################*/	
 	$branch = "stable";
 	/*##########################################################
-	# Database: MySQL, SQLite				   #
+	# Database: MySQL, SQLite                                  #
 	############################################################*/	
 	$dataBase = "SQLite";
 	/*##########################################################
-	# SQLite Config						   #
+	# SQLite Config                                            #
 	############################################################*/		
 	$SQLiteConfig = array('file' => "shoppinglist.sqlite");
 	/*##########################################################
-	# MySQL Config						   #
+	# MySQL Config                                             #
 	############################################################*/
-	$MySQLConfig = array('host' => "host",'db' => "db",'user' => "user",'password' => "password",);
+	$MySQLConfig = [
+        'host' => "localhost",
+        'db' => "your_database_name",
+        'user' => "your_mysql_user",
+        'password' => "your_mysql_password",
+	];
 ?>
-
