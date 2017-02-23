@@ -42,16 +42,19 @@ switch($dataBase){
 
 
 include('db_connector.php');
+	$db = NEW DataBase($dataBase, $dbConfig);
+	$db->init(); //TODO: put this to INSTALL.php
 
 	session_start();
-	if (! isset($_SESSION['user_logged']) || $_SESSION['user_logged'] != 1) {
+	if (isset($_SESSION['user_logged']) && $_SESSION['user_logged'] == 0 && $_SESSION['user_read'] == 1) {
+		echo $db->listall();
+		exit();
+	} else if (! isset($_SESSION['user_logged']) || $_SESSION['user_logged'] != 1) {
 		if (!hash_equals($authKey, crypt($auth, $authKey))){
 			die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
 		}
 	}
 	
-	$db = NEW DataBase($dataBase, $dbConfig);
-	$db->init(); //TODO: put this to INSTALL.php
 	switch ($function){
 		case 'listall':
 			echo $db->listall();

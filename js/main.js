@@ -84,7 +84,11 @@ var API_ERROR_LIST=6006;
   
   // add a category ( id: category ref in categoryList, name: display name )
   function addCategory(id,name) {
+		var read = $("#shopcategory").attr("data");
 		var content= '<h2 id="title_'+id+'"><small>'+name+'</small></h2> <div id="cat_'+id+'"> <div style="display: table; width: 100%"><div style="display: table-cell;"><div class="input-group" style="float: left"><div class="input-group-addon"><i class="fa fa-shopping-cart"></i></div><input class="form-control" type="text" placeholder="Qty" name="addItemQty" id="addItemQty" value="1" style="width: 3.5em"><input id="addItemName" class="form-control" type="text" placeholder="Name" name="addItemName" value="" style="border-left: 0px; width: 70%"></div></div> <div style="display: table-cell;"><button id="addItemButton" class="btn btn-default" style="float: right"><i class="fa fa-cart-plus"></i></button></div></div> <br /> <ul id="shopItems"> </ul> </div> ';
+		if (read!=null && read.length) {
+			content= '<h2 id="title_'+id+'"><small>'+name+'</small></h2> <div id="cat_'+id+'"> <ul id="shopItems"> </ul> </div> ';
+		}
 		$("#shopcategory").append(content);
 		var addButtonOBJ=$('#cat_'+id);
 		addButtonOBJ.find( "#addItemButton" ).button().click(addItemClick);
@@ -196,6 +200,7 @@ var API_ERROR_LIST=6006;
 	 to the category object categoryOBJ */
   function addItem(categoryOBJ, name, amount, checked) {
 		var isChecked,isCheckedName;
+		var read = $("#shopcategory").attr("data");
 		if (checked) { isChecked="itemCheckedTD"; isCheckedName=" itemCheckedName";} 
 		else { isChecked="itemUncheckedTD";isCheckedName=""; }
 		var itemVal=$('<li id="shopItemEntry" class="panel panel-default"> <table class="panel-body" width="100%"> <tr> ' + 
@@ -204,11 +209,20 @@ var API_ERROR_LIST=6006;
 			'</td> <td class="itemName'+isCheckedName+'">'+name+'</td> '+
 			'<td class="itemDelete" align="right"> <button class="btn btn-default"><i class="fa fa-trash"></i></button> </td> '+
 			'</tr> </table> </li>');
+		if (read!=null && read.length) {
+			itemVal=$('<li id="shopItemEntry" class="panel panel-default"> <table class="panel-body" width="100%"> <tr> ' + 
+			'<td class="itemCheck '+ isChecked +'" > <i class="fa fa-2x"></i>' + 
+			'</td> <td class="itemQty">'+amount+'' +
+			'</td> <td class="itemName'+isCheckedName+'">'+name+'</td> '+
+			'</tr> </table> </li>');
+		}
 		$(itemVal).appendTo(categoryOBJ.find("#shopItems"));
 		// set events
-		$(itemVal).find( ".itemDelete" ).click(deleteItem);
-		$(itemVal).find( ".itemCheck" ).click(checkItemToggle);
-		$(itemVal).find( "#itemQtyValue" ).change(updateItem);
+		if (read==null || read.length==0) {
+			$(itemVal).find( ".itemDelete" ).click(deleteItem);
+			$(itemVal).find( ".itemCheck" ).click(checkItemToggle);
+			$(itemVal).find( "#itemQtyValue" ).change(updateItem);
+		}
   }
 
   // Toggle check/uncheck of an item. Only used by "add" button of category
@@ -332,6 +346,10 @@ var API_ERROR_LIST=6006;
 		$(this).blur();
   }
   
+  function share(){
+		alert('Share the following URL: '+"\n"+$(this).attr("data"));
+  }
+
   function getItemValues(itemOBJ) {
 		var retVal = new Array();
 		retVal['checked']=itemOBJ.find(".itemCheck").hasClass("itemCheckedTD");
@@ -365,6 +383,7 @@ var API_ERROR_LIST=6006;
 		// Main page  
 		$( "#refresh" ).button().click(refresh);
 		$( "#checked" ).button().click(removechecked);
+		$( "#share" ).button().click(share);
 		$( "#itemQtyValue" ).change(updateItem);
 
 		/* XXX

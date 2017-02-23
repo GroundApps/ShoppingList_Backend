@@ -23,8 +23,9 @@
 				return !$ret;
 			}
 		}
-		if (hash_equals($authKey, crypt($_POST['password'], $authKey))){
+		if (hash_equals($authKey, crypt($_POST['password'], $authKey))) {
 			$_SESSION['user_logged']=1;
+			$_SESSION['user_read']=0;
 		} else {
 			$login_error.="<p>Invalid API Key</p>";
 		}
@@ -79,6 +80,7 @@
 <button id="refresh" class="btn btn-primary icon fa-refresh">Refresh data</button> 
 <? /* Add a category (well, will soon): <input type="text" size="15" id="addCategoryName" value=""/> */ ?>
 <button id="checked" class="btn btn-primary icon fa-check">Remove checked</button> 
+<button id="share" class="btn btn-primary icon fa-share-alt" data="<? echo $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/view.php?key='.substr(crypt($authKey, 'share'), -16); ?>">Share</button> 
 <div id="shopcategory"></div>
 <br />
 <?
