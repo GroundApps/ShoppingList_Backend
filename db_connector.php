@@ -75,9 +75,9 @@
             return (bool)count($stmt->fetchAll());
         }
         
-        function save($item, $count){
+        function save($item, $count, $checked){
             try{
-                $checked = (int)false;
+                $checked = $checked == "true" ? 1 : 0;
                 $stmt = $this->db->prepare("INSERT INTO $this->table (item, count, checked) VALUES (:item, :count, :checked);");
                 $stmt->bindParam(':item', $item, PDO::PARAM_STR);
                 $stmt->bindParam(':count', $count, PDO::PARAM_INT);
@@ -110,11 +110,13 @@
             }
         }
         
-        function update($item, $count){
+        function update($item, $count, $checked){
             try{
-                $stmt = $this->db->prepare("UPDATE $this->table SET count=:count WHERE item=:item;");
+                $checked = $checked == "true" ? 1 : 0;
+                $stmt = $this->db->prepare("UPDATE $this->table SET count=:count, checked=:checked WHERE item=:item;");
                 $stmt->bindParam(':item', $item, PDO::PARAM_STR);
                 $stmt->bindParam(':count', $count, PDO::PARAM_INT);
+                $stmt->bindParam(':checked', $checked, PDO::PARAM_INT);
                 $stmt->execute();
                 return json_encode(array('type' => API_SUCCESS_UPDATE, 'content' => 'Update successfull.'));
             }catch(PDOException $e){
