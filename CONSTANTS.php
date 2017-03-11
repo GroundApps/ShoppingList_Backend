@@ -27,4 +27,5 @@
     define('API_ERROR_SAVE', 6004);
 	define('API_ERROR_CLEAR', 6005);
     define('API_ERROR_LIST', 6006);
+    define('API_ERROR_QRCODE', 6007);
 ?>
