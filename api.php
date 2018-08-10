@@ -18,6 +18,7 @@ $function = array_key_exists('function', $_POST) ? $_POST['function'] : null;
 $auth = array_key_exists('auth', $_POST) ? $_POST['auth'] : null;
 
 include('config.php');
+$outpanApiKey='1a74a95c40a331e50d4b2c7fe311328c'; // taken from https://github.com/johncipponeri/outpan-api-java
 
 if($authKey == ''){
 	if ($_SERVER['HTTP_USER_AGENT'] != "ShoLiApp"){
@@ -81,6 +82,22 @@ include('db_connector.php');
 		break;
 		case 'clear':
 			echo $db->clear();
+		break;
+		case 'addQRcodeItem':
+			$response = file_get_contents("https://api.outpan.com/v2/products/" . $itemName . "/?apikey=" . $outpanApiKey);
+			$name = json_decode($response)->{'name'};
+			if ( $name != "" ) {
+				$itemName = $name;
+				$itemCount = 1;
+				$itemChecked = "false";
+				if( $db->exists($itemName) ) {
+					echo $db->update($itemName, $itemCount, $itemChecked);
+				} else {
+					echo $db->save($itemName, $itemCount, $itemChecked);
+				}
+			} else {
+				die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => "Code not found: " . $itemName)));
+			}			
 		break;
 		default:
 		die (json_encode(array('type' => API_ERROR_FUNCTION_NOT_SPECIFIED, 'content' => 'function not specified')));

@@ -78,7 +78,7 @@
         
         function save($item, $count, $checked = false){
             try{
-                $checked = (int)$checked;
+                $checked = ($checked=='true' ? 1:0);
                 $stmt = $this->db->prepare("INSERT INTO $this->table (item, count, checked) VALUES (:item, :count, :checked);");
                 $stmt->bindParam(':item', $item, PDO::PARAM_STR);
                 $stmt->bindParam(':count', $count, PDO::PARAM_INT);
@@ -111,7 +111,7 @@
             }
         }
         
-        function update($item, $count, $checked){
+        function update($item, $count, $checked = false){
             try{
                 $checked = ($checked=='true' ? 1:0);
                 $stmt = $this->db->prepare("UPDATE $this->table SET count=:count, checked=:checked WHERE item=:item;");
