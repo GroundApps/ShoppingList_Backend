@@ -228,7 +228,8 @@ var API_ERROR_LIST=6006;
   // Toggle check/uncheck of an item. Only used by "add" button of category
   function checkItemToggle() {
 		var itemNameOBJ=$(this).parent().find(".itemName");
-		if ($(this).hasClass("itemUncheckedTD") ) 
+		var itemUnchecked=$(this).hasClass("itemUncheckedTD");
+		if (itemUnchecked) 
 		{
 			$(this).removeClass("itemUncheckedTD");	
 			$(this).addClass("itemCheckedTD");
@@ -239,6 +240,26 @@ var API_ERROR_LIST=6006;
 			$(this).addClass("itemUncheckedTD");
 			itemNameOBJ.removeClass("itemCheckedName");	
 		}
+
+		var itemOBJ = $(this).closest("#shopItemEntry");
+		var itemName=itemOBJ.find(".itemName").html();
+		var itemQty=itemOBJ.find("#itemQtyValue").val();
+
+		$.ajax({
+			data: {
+				auth: "none",
+				function: "update",
+				item: itemName,
+				count: itemQty,
+				checked: itemUnchecked ? "true" : "false"
+			},
+		  success: function (data) {
+				if (data.type != API_SUCCESS_UPDATE) {
+					//refresh(); not required for toggling
+				}
+			}
+		});
+
   }
   
   // Update item linked by itemObject
@@ -378,7 +399,7 @@ var API_ERROR_LIST=6006;
 		$( ".itemDelete" ).click(deleteItem);
 		$( "#shopItems" ).sortable({ items: "li" });
 		$( "#addItemButton" ).button().click(addItemClick);
-		$( ".itemCheck" ).click(checkItemToggle());
+		$( ".itemCheck" ).click(checkItemToggle);
 
 		// Main page  
 		$( "#refresh" ).button().click(refresh);
