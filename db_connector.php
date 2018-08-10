@@ -128,7 +128,7 @@
 				if ($prev['count'] != $count)
 					return json_encode(array('type' => API_SUCCESS_UPDATE, 'content' => 'Update successful.'));
 
-				return json_encode(array('type' => API_SUCCESS_UPDATE, 'content' => ($checked ? 'done':'unchecked')));
+				return json_encode(array('type' => API_SUCCESS_UPDATE, 'content' => ($checked ? '✔':'♻')));
 			}catch(PDOException $e){
 				return json_encode(array('type' => API_ERROR_UPDATE_, 'content' => $e->getMessage()));
 			}
