@@ -85,19 +85,23 @@ include('db_connector.php');
 		break;
 		case 'addQRcodeItem':
 			$response = file_get_contents("https://api.outpan.com/v2/products/" . $itemName . "/?apikey=" . $outpanApiKey);
-			$name = json_decode($response)->{'name'};
-			if ( $name != "" ) {
-				$itemName = $name;
-				$itemCount = 1;
-				$itemChecked = "false";
-				if( $db->exists($itemName) ) {
-					echo $db->update($itemName, $itemCount, $itemChecked);
+			if($response!==false) {
+				$name = json_decode($response)->{'name'};
+				if ( $name != "" ) {
+					$itemName = $name;
+					$itemCount = 1;
+					$itemChecked = "false";
+					if( $db->exists($itemName) ) {
+						echo $db->update($itemName, $itemCount, $itemChecked);
+					} else {
+						echo $db->save($itemName, $itemCount, $itemChecked);
+					}
 				} else {
-					echo $db->save($itemName, $itemCount, $itemChecked);
+					die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => "Code not found: " . $itemName)));
 				}
 			} else {
-				die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => "Code not found: " . $itemName)));
-			}			
+					die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => "Error querying outpan.com")));
+			}
 		break;
 		default:
 		die (json_encode(array('type' => API_ERROR_FUNCTION_NOT_SPECIFIED, 'content' => 'function not specified')));
