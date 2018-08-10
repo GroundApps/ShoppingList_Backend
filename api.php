@@ -9,9 +9,10 @@
  		return !$ret;
  	}
  }   
-    
+
 $itemName = array_key_exists('item', $_POST) ? $_POST['item'] : null;
 $itemCount = array_key_exists('count', $_POST) ? $_POST['count'] : null;
+$itemChecked = array_key_exists('checked', $_POST) ? $_POST['checked'] : null;
 $jsonData = array_key_exists('jsonArray', $_POST) ? $_POST['jsonArray'] : null;
 $function = array_key_exists('function', $_POST) ? $_POST['function'] : null;
 $auth = array_key_exists('auth', $_POST) ? $_POST['auth'] : null;
@@ -61,9 +62,9 @@ include('db_connector.php');
 		break;
 		case 'save':
 			if($db->exists($itemName)){
-				echo $db->update($itemName, $itemCount);
+				echo $db->update($itemName, $itemCount, $itemChecked);
 			} else {
-				echo $db->save($itemName, $itemCount);
+				echo $db->save($itemName, $itemCount, $itemChecked);
 			}
 		break;
 		case 'saveMultiple':
@@ -73,7 +74,7 @@ include('db_connector.php');
 			echo $db->deleteMultiple($jsonData);
 		break;
 		case 'update':
-			echo $db->update($itemName, $itemCount);
+			echo $db->update($itemName, $itemCount, $itemChecked);
 		break;
 		case 'delete':
 			echo $db->delete($itemName);

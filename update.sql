@@ -1,1 +1,1 @@
-ALTER TABLE ShoppingList ADD COLUMN checked VARCHAR(128);
+ALTER TABLE ShoppingList ADD COLUMN checked INT NOT NULL;
