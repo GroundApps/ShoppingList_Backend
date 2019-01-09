@@ -5,13 +5,13 @@
 
 		var $db;
 		var $type;
-		var $table = "ShoppingList";
+		var $table = 'ShoppingList';
 
 		function __construct($dbtype, $dbargs){
 			$this->type = $dbtype;
 			switch($dbtype){
 				case 'SQLite':
-					$db_pdo="sqlite:".$dbargs['file'];
+					$db_pdo='sqlite:'.$dbargs['file'];
 					try{
 						$this->db = new PDO($db_pdo);
 					}catch(PDOException $e){
@@ -19,15 +19,15 @@
 					}
 					break;
 				case 'MySQL':
-					$db_pdo="mysql:host=".$dbargs['host'].";dbname=".$dbargs['db'];
+					$db_pdo='mysql:host='.$dbargs['host'].';dbname='.$dbargs['db'].';charset=utf8';
 					try{
-						$this->db = new PDO($db_pdo, $dbargs['user'], $dbargs['password']);
+						$this->db = new PDO($db_pdo, $dbargs['user'], $dbargs['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
 					}catch(PDOException $e){
 						die(json_encode(array('type' => API_ERROR_DATABASE_CONNECT, 'content' => $e->getMessage())));
 					}
 					break;
 				default:
-					die(json_encode(array('type' => API_ERROR_MISSING_PARAMETER, 'content' => "Missing database parameters.")));
+					die(json_encode(array('type' => API_ERROR_MISSING_PARAMETER, 'content' => 'Missing database parameters.')));
 			}
 			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			//SQLITE $this->db->query('PRAGMA journal_mode=OFF;');

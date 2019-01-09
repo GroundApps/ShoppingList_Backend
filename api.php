@@ -8,7 +8,7 @@ if(!function_exists('hash_equals')) {
 		$ret |= array_sum(unpack("C*", $a^$b));
 		return !$ret;
 	}
-}   
+}
 
 $itemName = array_key_exists('item', $_POST) ? $_POST['item'] : null;
 $itemCount = array_key_exists('count', $_POST) ? $_POST['count'] : null;
@@ -66,9 +66,9 @@ switch ($function){
 	case 'save':
 		if($db->exists($itemName)){
 			echo $db->update($itemName, $itemCount, $itemChecked);
-			} else {
-				echo $db->save($itemName, $itemCount, $itemChecked);
-			}
+		} else {
+			echo $db->save($itemName, $itemCount, $itemChecked);
+		}
 		break;
 
 	case 'saveMultiple':
