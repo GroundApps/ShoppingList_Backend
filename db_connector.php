@@ -19,9 +19,9 @@
 					}
 					break;
 				case 'MySQL':
-					$db_pdo='mysql:host='.$dbargs['host'].';dbname='.$dbargs['db'].';charset=utf8';
+					$db_pdo='mysql:host='.$dbargs['host'].';dbname='.$dbargs['db'].';charset=utf8mb4';
 					try{
-						$this->db = new PDO($db_pdo, $dbargs['user'], $dbargs['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+						$this->db = new PDO($db_pdo, $dbargs['user'], $dbargs['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4' COLLATE 'utf8mb4_bin'"));
 					}catch(PDOException $e){
 						die(json_encode(array('type' => API_ERROR_DATABASE_CONNECT, 'content' => $e->getMessage())));
 					}
