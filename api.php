@@ -1,20 +1,21 @@
- <?php
-    include "CONSTANTS.php";
-	header("ShoLiBackendVersion: ".BACKEND_VERSION);
-	
- if(!function_exists('hash_equals')) {
- 	function hash_equals($a, $b) {
- 		$ret = strlen($a) ^ strlen($b);
- 		$ret |= array_sum(unpack("C*", $a^$b));
- 		return !$ret;
- 	}
- }   
-    
-$itemName = $_POST['item'];
-$itemCount = $_POST['count'];
-$jsonData = $_POST['jsonArray'];
-$function = $_POST['function'];
-$auth = $_POST['auth'];
+<?php
+require_once('CONSTANTS.php');
+header("ShoLiBackendVersion: ".BACKEND_VERSION);
+
+if(!function_exists('hash_equals')) {
+	function hash_equals($a, $b) {
+		$ret = strlen($a) ^ strlen($b);
+		$ret |= array_sum(unpack("C*", $a^$b));
+		return !$ret;
+	}
+}
+
+$itemName = array_key_exists('item', $_POST) ? $_POST['item'] : null;
+$itemCount = array_key_exists('count', $_POST) ? $_POST['count'] : null;
+$itemChecked = array_key_exists('checked', $_POST) ? $_POST['checked'] : null;
+$jsonData = array_key_exists('jsonArray', $_POST) ? $_POST['jsonArray'] : null;
+$function = array_key_exists('function', $_POST) ? $_POST['function'] : null;
+$auth = array_key_exists('auth', $_POST) ? $_POST['auth'] : null;
 
 include('config.php');
 
@@ -29,11 +30,9 @@ if($authKey == ''){
 
 switch($dataBase){
 	case 'SQLite':
-		$dbConnector = "sqlite_connector.php";
 		$dbConfig = $SQLiteConfig;
 		break;
 	case 'MySQL':
-		$dbConnector = "mysql_connector.php";
 		$dbConfig = $MySQLConfig;
 		break;
 	default:
@@ -43,44 +42,111 @@ switch($dataBase){
 }
 
 
-include $dbConnector;
-	
+include('db_connector.php');
+$db = NEW DataBase($dataBase, $dbConfig);
+$db->init(); //TODO: put this to INSTALL.php
+
+session_start();
+if (isset($_SESSION['user_logged']) && $_SESSION['user_logged'] == 0 && $_SESSION['user_read'] == 1) {
+	echo $db->listall();
+	exit();
+} else if (! isset($_SESSION['user_logged']) || $_SESSION['user_logged'] != 1) {
 	if (!hash_equals($authKey, crypt($auth, $authKey))){
 		die (json_encode(array('type' => API_ERROR_403, 'content' => 'Authentication failed.')));
 	}
-	
-	$db = NEW DataBase($dbConfig);
-	
-	switch ($function){
-		case 'listall':
+}
+
+
+switch ($function){
+
+	case 'listall':
 			echo $db->listall();
 		break;
-		case 'save':
-			if($db->exists($itemName)){
-				echo $db->update($itemName, $itemCount);
-			} else {
-				echo $db->save($itemName, $itemCount);
-			}
+
+	case 'save':
+		if($db->exists($itemName)){
+			echo $db->update($itemName, $itemCount, $itemChecked);
+		} else {
+			echo $db->save($itemName, $itemCount, $itemChecked);
+		}
 		break;
-		case 'saveMultiple':
+
+	case 'saveMultiple':
 			echo $db->saveMultiple($jsonData);
 		break;
-		case 'deleteMultiple':
+
+	case 'deleteMultiple':
 			echo $db->deleteMultiple($jsonData);
 		break;
-		case 'update':
-			echo $db->update($itemName, $itemCount);
+
+	case 'update':
+			echo $db->update($itemName, $itemCount, $itemChecked);
 		break;
-		case 'delete':
+
+	case 'delete':
 			echo $db->delete($itemName);
 		break;
-		case 'clear':
+
+	case 'clear':
 			echo $db->clear();
 		break;
-		default:
+
+	case 'addQRcodeItem':
+			/* OUTPAN
+			$outpanApiKey='1a74a95c40a331e50d4b2c7fe311328c'; // taken from https://github.com/johncipponeri/outpan-api-java
+			$response = file_get_contents('https://api.outpan.com/v2/products/' . $itemName . '/?apikey=' . $outpanApiKey);
+			if($response!==false) {
+				$name = json_decode($response)->{'name'};
+				if ( $name != '' ) {
+					$itemName = $name;
+					$itemCount = 1;
+					$itemChecked = 'false';
+					if( $db->exists($itemName) ) {
+						echo $db->update($itemName, $itemCount, $itemChecked);
+					} else {
+						echo $db->save($itemName, $itemCount, $itemChecked);
+					}
+				} else {
+					die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => 'Code not found: ' . $itemName)));
+				}
+			} else {
+					die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => 'Error querying outpan.com')));
+			}
+			//*/
+			$opengtindbApiKey='400000000'; // taken from https://opengtindb.org/api.php
+			$response = file_get_contents('https://opengtindb.org/?ean=' . $itemName . '&cmd=query&queryid=' . $opengtindbApiKey);
+			if($response!==false) {
+				if(strpos($response,'error=0')!==false) {
+					$values = parse_ini_string(utf8_encode($response));
+					//file_put_contents('/tmp/sholi',print_r($values, true));
+					$name = trim($values['name']);
+					if ($name == '') $name = trim($values['detailname']);
+					if ($name == '') $name = trim($values['name_en']);
+					if ($name == '') $name = trim($values['detailname_en']);
+					if ($name == '') $name = trim($values['descr']);
+
+					if ( $name != '' ) {
+						$itemName = $name;
+						$itemCount = 1;
+						$itemChecked = 'false';
+						if( $db->exists($itemName) ) {
+							echo $db->update($itemName, $itemCount, $itemChecked);
+						} else {
+							echo $db->save($itemName, $itemCount, $itemChecked);
+						}
+					} else {
+						die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => 'Code not found: ' . $itemName)));
+					}
+				} else {
+					die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => 'Code not found: ' . $itemName . ', '.$response)));
+				}
+			} else {
+					die (json_encode(array('type' => API_ERROR_QRCODE, 'content' => 'Error querying opengtindb.org')));
+			}
+		break;
+
+	default:
 		die (json_encode(array('type' => API_ERROR_FUNCTION_NOT_SPECIFIED, 'content' => 'function not specified')));
 		
-	}
-
-
-?> 
+}
+?>
